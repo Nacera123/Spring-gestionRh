@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -37,4 +38,10 @@ public class Individu {
 
     @Column(name = "nombre_enfant")
     private int nombreEnfant;
+
+   @ManyToOne
+    private EtatCivil civil;
+
+   @ManyToOne
+    private Pays pays;
 }
