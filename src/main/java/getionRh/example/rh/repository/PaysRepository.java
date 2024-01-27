@@ -1,7 +1,7 @@
-package getionRh.example.rh.model.repository;
+package getionRh.example.rh.repository;
 
 
-import getionRh.example.rh.model.entity.Pays;
+import getionRh.example.rh.entity.Pays;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

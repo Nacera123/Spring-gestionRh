@@ -1,4 +1,4 @@
-package getionRh.example.rh.model.entity;
+package getionRh.example.rh.entity;
 
 
 import jakarta.persistence.*;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Entity
-public class EtatCivil {
+public class Pays {
 
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -17,7 +17,6 @@ public class EtatCivil {
 
     private String abreviation;
 
-
-    @OneToMany(mappedBy = "civil")
-    private List<Individu> civilites;
+//    @OneToMany(mappedBy = "pays")
+//    private List<Individu> country;
 }

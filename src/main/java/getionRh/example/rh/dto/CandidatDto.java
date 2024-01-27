@@ -1,8 +1,7 @@
-package getionRh.example.rh.model.dto;
+package getionRh.example.rh.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import getionRh.example.rh.model.entity.Candidat;
-import getionRh.example.rh.model.entity.Individu;
+import getionRh.example.rh.entity.Candidat;
 import lombok.Data;
 
 

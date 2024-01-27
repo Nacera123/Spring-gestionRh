@@ -1,10 +1,7 @@
-package getionRh.example.rh.model.dto;
+package getionRh.example.rh.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import getionRh.example.rh.model.entity.Individu;
-import getionRh.example.rh.model.entity.Personnel;
-import getionRh.example.rh.model.entity.SituationFamiliale;
-import jakarta.persistence.*;
+import getionRh.example.rh.entity.Personnel;
 import lombok.Data;
 
 
@@ -21,15 +18,18 @@ public class PersonnelDto {
     @JsonProperty("individu")
     private IndividuDto individu;
 
-    @JsonProperty("situationFamiliale")
-    private SituationFamilialeDto situationFamiliale;
+
+
+//    @JsonProperty("situationFamiliale")
+//    private SituationFamilialeDto situationFamiliale;
 
 
     public PersonnelDto(Personnel personnel){
         id = personnel.getId();
         matricule = personnel.getMatricule();
         individu = new IndividuDto(personnel.getIndividu());
-        situationFamiliale = new SituationFamilialeDto(personnel.getSituationFamiliale());
+//        situationFamiliale = new SituationFamilialeEnum(personnel.)
+//        situationFamiliale = new SituationFamilialeDto(personnel.getSituationFamiliale());
     }
 
 }

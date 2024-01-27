@@ -1,13 +1,12 @@
-package getionRh.example.rh.model.entity;
+package getionRh.example.rh.entity;
 
 
+import getionRh.example.rh.enumerate.EtatCivilEnum;
+import getionRh.example.rh.enumerate.SituationFamilialeEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.sql.Date;
-import java.util.List;
 
 @Data
 @Entity
@@ -26,12 +25,15 @@ public class Individu {
     @Column(name = "date_de_naissance")
     private Date dateDeNaissance;
 
+    @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String telephone;
 
     private String adresse;
 
+    @Column(nullable = true)
     private int cp;
 
     private String ville;
@@ -39,9 +41,16 @@ public class Individu {
     @Column(name = "nombre_enfant")
     private int nombreEnfant;
 
-   @ManyToOne
-    private EtatCivil civil;
 
    @ManyToOne
     private Pays pays;
+
+
+    @Column(name = "etat_civil")
+    @Enumerated(EnumType.STRING)
+    private EtatCivilEnum etatCivilEnum;
+
+    @Column(name = "situation_familiale")
+    @Enumerated(EnumType.STRING)
+    private SituationFamilialeEnum situationFamiliale;
 }

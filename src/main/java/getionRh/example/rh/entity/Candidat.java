@@ -1,4 +1,4 @@
-package getionRh.example.rh.model.entity;
+package getionRh.example.rh.entity;
 
 
 import jakarta.persistence.*;

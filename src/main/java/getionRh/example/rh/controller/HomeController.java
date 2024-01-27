@@ -1,14 +1,56 @@
 package getionRh.example.rh.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import getionRh.example.rh.service.IndividuService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@RequestMapping("/")
 public class HomeController {
 
-    @GetMapping("/")
-    public String getMethodName() {
-        return "home";
-    }
+    @Autowired
+    private IndividuService individuService;
+
+//    @Autowired
+//    private EtatCivilService etatCivilService;
+
+//    @GetMapping
+//    public String getMethodName() {
+//        return "home";
+//    }
+//
+//    @GetMapping("/individu")
+//    public List<IndividuDto> getIndividu(){
+//        List<Individu> individus = individuService.getAll();
+//        List<IndividuDto> individuDtos = new ArrayList<>();
+//
+//        for (Individu i : individus){
+//                individuDtos.add(new IndividuDto(i));
+//        }
+//        return individuDtos;
+//    }
+//    public List<Individu> getIndividu(){
+//        List<Individu> individus = individuService.getAll();
+//        List<IndividuDto> individuDtos = new ArrayList<>();
+//
+//        for (Individu i : individus){
+//                individuDtos.add(new IndividuDto(i));
+//        }
+//        return individus;
+//    }
+
+//    @GetMapping("/etat-civil")
+//    public List<EtatCivilDto> getEtatCivil(){
+//        List<EtatCivil> etatCivils = etatCivilService.getAll();
+//        List<EtatCivilDto> etatCivilDtos = new ArrayList<>();
+//        for (EtatCivil e : etatCivils){
+//            etatCivilDtos.add(new EtatCivilDto(e));
+//        }
+//        return etatCivilDtos;
+//
+//    }
+
+
 
 }

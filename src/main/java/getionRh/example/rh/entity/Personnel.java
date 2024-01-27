@@ -1,4 +1,4 @@
-package getionRh.example.rh.model.entity;
+package getionRh.example.rh.entity;
 
 
 import jakarta.persistence.*;
@@ -17,6 +17,4 @@ public class Personnel {
     @OneToOne
     private Individu individu;
 
-    @ManyToOne
-    private SituationFamiliale situationFamiliale;
 }
