@@ -6,19 +6,17 @@ import getionRh.example.rh.repository.PaysRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
-public class PaysService {
+public interface PaysService {
 
-    @Autowired
-    private PaysRepository paysRepository;
-
-
-    public long counPays(){
-        return paysRepository.count();
-    }
+        public long counPays();
+        public Pays save(Pays pays);
+        public List<Pays> getAll();
+        public Optional<Pays> getById(Integer id);
+        public void delete(Pays pays);
 
 
-    public Pays save(Pays pays){
-        return  paysRepository.save(pays);
-    }
 }

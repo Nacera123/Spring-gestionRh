@@ -5,7 +5,8 @@ import getionRh.example.rh.dto.IndividuDto;
 import getionRh.example.rh.entity.Individu;
 import getionRh.example.rh.enumerate.EtatCivilEnum;
 import getionRh.example.rh.enumerate.SituationFamilialeEnum;
-import getionRh.example.rh.service.IndividuService;
+//import getionRh.example.rh.service.IndividuService;
+import getionRh.example.rh.service.implementation.IndividuServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +17,7 @@ import java.util.List;
 @RequestMapping("/individu")
 public class IndividuController {
 
-    @Autowired
-    private IndividuService individuService;
+    @Autowired private IndividuServiceImpl individuService;
 
     /**
      * @param individu

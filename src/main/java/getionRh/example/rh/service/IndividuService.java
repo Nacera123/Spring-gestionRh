@@ -10,30 +10,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class IndividuService {
+public interface IndividuService {
 
-    @Autowired
-    private IndividuRepository individuRepository;
-
-    public Individu save(Individu individu){
-        return individuRepository.save(individu);
-    }
-    public List<Individu> getAll(){
-        return individuRepository.findAll();
-    }
-
-    public Optional<Individu> getById(Integer id){
-        return individuRepository.findById(id);
-    }
-
-    public void delete(Individu individu){
-        individuRepository.delete(individu);
-    }
-
-
-    public Optional<Individu> getByName(String name){
-        return individuRepository.findIndividusByNom(name);
-    }
-
+    public Individu save(Individu individu);
+    public List<Individu> getAll();
+    public Optional<Individu> getById(Integer id);
+        public void delete(Individu individu);
+    public Optional<Individu> getByName(String name);
 
 }

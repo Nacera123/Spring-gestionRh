@@ -2,19 +2,18 @@ package getionRh.example.rh.data;
 
 
 import getionRh.example.rh.entity.Pays;
-import getionRh.example.rh.service.PaysService;
+import getionRh.example.rh.service.implementation.PaysServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-//public class SituationFamilialeInitializer  {
 public class PaysInitializer implements ApplicationRunner {
 
 
     @Autowired
-    private PaysService paysService;
+    private PaysServiceImpl paysService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
