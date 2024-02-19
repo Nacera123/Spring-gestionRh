@@ -21,6 +21,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
 
+
+    @Override
     public User save(User user){
         return userRepository.save(user);
     }
@@ -47,6 +49,7 @@ public class UserServiceImpl implements UserService {
         return users.get(0);
     }
 
+    @Override
     public UserDetails loadByUsername(String username)throws UsernameNotFoundException {
 
         UserDetails userDetails = userRepository.findByEmailIgnoreCase(username);

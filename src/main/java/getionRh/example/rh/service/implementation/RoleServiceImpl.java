@@ -23,7 +23,7 @@ public class RoleServiceImpl implements RoleService {
         }
         return roleRepository.save(role);
     }
-    private Optional<Role> findByName(String roleNom){
+    public Optional<Role> findByName(String roleNom){
        return roleRepository.findByNom(roleNom);
     }
 
