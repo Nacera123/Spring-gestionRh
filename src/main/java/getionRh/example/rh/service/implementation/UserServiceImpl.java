@@ -2,9 +2,11 @@ package getionRh.example.rh.service.implementation;
 
 import getionRh.example.rh.entity.Individu;
 import getionRh.example.rh.entity.User;
+import getionRh.example.rh.exception.WsException;
 import getionRh.example.rh.repository.UserRepository;
 import getionRh.example.rh.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,15 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User save(User user){
+    public User save(User user)throws WsException {
+        if (user.getEmail().isEmpty() || user.getPassword().isEmpty()){
+            throw new WsException(HttpStatus.BAD_REQUEST, "Veuillez remplir tout les champs");
+        }
+        if (userRepository.existsByEmailLikeIgnoreCase(user.getEmail())){
+            throw  new WsException(HttpStatus.BAD_REQUEST, "l'email existe deja");
+        }
+
+
         return userRepository.save(user);
     }
 

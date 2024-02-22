@@ -9,15 +9,17 @@ import getionRh.example.rh.service.UserService;
 import getionRh.example.rh.service.implementation.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class AuthenticationController {
 
 
@@ -28,7 +30,9 @@ public class AuthenticationController {
     private BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public String login(@RequestBody AuthenticationDto authenticationDto){
+    public Map<String, String> login(@RequestBody AuthenticationDto authenticationDto){
+ //   public ResponseEntity<?> login(@RequestBody AuthenticationDto authenticationDto){
+//    public String login(@RequestBody AuthenticationDto authenticationDto){
 
         UserDetails userDetails = userService.loadByUsername(authenticationDto.getEmail());
 
@@ -38,7 +42,13 @@ public class AuthenticationController {
         }
 
         User user = (User) userDetails;
-        return JwtTokenGenerater.generateToken(user.getToken());
+
+        Map<String , String> response = new HashMap<>();
+        response.put("token", JwtTokenGenerater.generateToken(user.getToken()));
+        //return ResponseEntity.ok(JwtTokenGenerater.generateToken(user.getToken()));
+
+//        return JwtTokenGenerater.generateToken(user.getToken());
+        return response;
     }
 
 

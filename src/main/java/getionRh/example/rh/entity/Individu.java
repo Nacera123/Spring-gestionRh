@@ -12,23 +12,30 @@ import java.sql.Date;
 @Entity
 public class Individu {
 
+//    public Individu(){
+//        this.nom = "";
+//        this.prenom = "";
+//        this.email = "";
+//        this.telephone = "";
+//    }
+
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String nom;
 
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String prenom;
 
-    @Column(name = "date_de_naissance")
+    @Column(name = "date_de_naissance", nullable = true)
     private Date dateDeNaissance;
 
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String telephone;
 
     private String adresse;
@@ -36,21 +43,22 @@ public class Individu {
     @Column(nullable = true)
     private int cp;
 
+    @Column(nullable = true)
     private String ville;
 
-    @Column(name = "nombre_enfant")
+    @Column(name = "nombre_enfant", nullable = true)
     private int nombreEnfant;
 
 
-   @ManyToOne
+   @ManyToOne()
     private Pays pays;
 
 
-    @Column(name = "etat_civil")
+    @Column(name = "etat_civil", nullable = true)
     @Enumerated(EnumType.STRING)
     private EtatCivilEnum etatCivilEnum;
 
-    @Column(name = "situation_familiale")
+    @Column(name = "situation_familiale", nullable = true)
     @Enumerated(EnumType.STRING)
     private SituationFamilialeEnum situationFamiliale;
 }

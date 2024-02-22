@@ -12,4 +12,6 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     boolean existsByNom(String nom);
 
     Optional<Role> findByNom(String nom);
+
+    long countByNom(String nom);
 }

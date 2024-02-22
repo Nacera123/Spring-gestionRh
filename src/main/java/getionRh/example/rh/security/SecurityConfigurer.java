@@ -39,8 +39,8 @@ public class SecurityConfigurer {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((auth) -> auth
-                    .requestMatchers("/api/**").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/login", "/register").permitAll() // pour le generateToken pour toute les personnes ont accées
+//                    .requestMatchers("/api/candidat").hasAnyAuthority("CANDIDAT")
+                    .requestMatchers(HttpMethod.POST, "/api/login", "/api/register").permitAll() // pour le generateToken pour toute les personnes ont accées
                     .anyRequest().permitAll()
                 )
                 .addFilterAfter(securityFilter(), UsernamePasswordAuthenticationFilter.class)

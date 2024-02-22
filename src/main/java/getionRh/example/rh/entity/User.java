@@ -15,6 +15,10 @@ import java.util.List;
 @Table(name = "\"user\"")
 public class User implements UserDetails {
 
+    public User(){
+        this.dateCreation = new Date();
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -29,6 +33,9 @@ public class User implements UserDetails {
 
     @ManyToOne
     private Role roles;
+
+    @OneToOne
+    private Individu individu;
 
 
 //    public boolean isRole(String roleName){

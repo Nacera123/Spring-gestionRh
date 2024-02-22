@@ -6,7 +6,6 @@ import getionRh.example.rh.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 
@@ -16,6 +15,7 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Override
     public Role save(Role role)throws Exception{
 
         if (roleRepository.existsByNom(role.getNom())){
@@ -23,8 +23,15 @@ public class RoleServiceImpl implements RoleService {
         }
         return roleRepository.save(role);
     }
+
+    @Override
     public Optional<Role> findByName(String roleNom){
        return roleRepository.findByNom(roleNom);
+    }
+
+    @Override
+    public long count(){
+        return roleRepository.count();
     }
 
 
