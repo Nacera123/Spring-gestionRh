@@ -1,6 +1,7 @@
 package getionRh.example.rh.entity.candidature;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import getionRh.example.rh.entity.Individu;
 import jakarta.persistence.*;
 import lombok.Data;

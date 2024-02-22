@@ -49,7 +49,10 @@ public class SessionCandidatureServiceImpl implements SessionCandidatureService 
     @Override
     public SessionCandidature update(Integer id, SessionCandidature session){
         SessionCandidature session1 = this.getById(id);
-        session1.setId(session.getId());
-        return sessionCandidatureRepository.save(session1);
+        session1.setStatus(session.getStatus());
+        session1.setDateCloture(session.getDateCloture());
+        session1.setDateOuverture(session.getDateOuverture());
+        session1.setReference(session.getReference());
+        return this.save(session1);
     }
 }

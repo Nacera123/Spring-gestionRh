@@ -26,8 +26,15 @@ public class CandidatureServiceImpl implements CandidatureService {
 
 
     @Override
-    public List<Candidature> getAll(){
-        return candidatureRepository.findAll();
+    public List<Candidature> getAll()throws WsException{
+
+        List<Candidature> candidatures = candidatureRepository.findAll();
+        if (candidatures.isEmpty()){
+            throw new WsException(HttpStatus.NOT_FOUND, "La liste de candidature est vide");
+        }else {
+            return candidatures;
+        }
+
     }
 
     @Override
@@ -43,17 +50,17 @@ public class CandidatureServiceImpl implements CandidatureService {
     }
 
     @Override
-    public void delete(Candidature candidature){
-        candidatureRepository.delete(candidature);
+    public void delete(Integer id){
+
+        candidatureRepository.deleteById(id);
     }
 
     @Override
     public Candidature update(Integer id, Candidature candidature){
         Candidature candidature1 = this.getById(id);
-        candidature1.setId(candidature.getId());
         candidature1.setEtatCandidature(candidature.getEtatCandidature());
         candidature1.setIndividu(candidature.getIndividu());
         candidature1.setPoste(candidature.getPoste());
-        return candidatureRepository.save(candidature1);
+        return this.save(candidature1);
     }
 }

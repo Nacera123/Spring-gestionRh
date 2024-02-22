@@ -26,8 +26,15 @@ public class EtatCandidatureServiceImpl implements EtatCandidatureService {
     }
 
     @Override
-    public List<EtatCandidature> getAll(){
-        return etatCandidatureRepository.findAll();
+    public List<EtatCandidature> getAll() throws WsException{
+
+        List<EtatCandidature> etat = etatCandidatureRepository.findAll();
+        if (etat.isEmpty()){
+            throw new WsException(HttpStatus.NOT_FOUND, "La liste des etats est vide");
+        }else {
+
+            return etat;
+        }
     }
 
     @Override
@@ -43,16 +50,16 @@ public class EtatCandidatureServiceImpl implements EtatCandidatureService {
     }
 
     @Override
-    public void delete(EtatCandidature etat){
-        etatCandidatureRepository.delete(etat);
+    public void delete(Integer id){
+        etatCandidatureRepository.deleteById(id);
     }
 
 
     @Override
     public EtatCandidature update(Integer id, EtatCandidature etat){
         EtatCandidature etat1 = this.getById(id);
-        etat1.setId(etat.getId());
-        return etatCandidatureRepository.save(etat1);
+        etat1.setEtat(etat.getEtat());
+        return this.save(etat1);
     }
 
     @Override

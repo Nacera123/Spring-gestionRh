@@ -51,7 +51,10 @@ public class PosteVacantServiceImpl implements PosteVacantService {
     @Override
     public PosteVacant update(Integer id, PosteVacant poste){
         PosteVacant poste1 = this.getById(id);
-        poste1.setId(poste.getId());
-        return posteVacantRepository.save(poste1);
+        poste1.setPoste(poste.getPoste());
+        poste1.setDescriptif(poste.getDescriptif());
+        poste1.setSession(poste.getSession());
+        poste1.setTypeContrat(poste.getTypeContrat());
+        return this.save(poste1);
     }
 }

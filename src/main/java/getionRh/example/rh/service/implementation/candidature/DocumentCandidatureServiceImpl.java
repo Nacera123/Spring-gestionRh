@@ -51,7 +51,9 @@ public class DocumentCandidatureServiceImpl implements DocumentCandidatureServic
     @Override
     public DocumentCandidature update(Integer id, DocumentCandidature document){
         DocumentCandidature document1 = this.getById(id);
-        document1.setId(document.getId());
-        return documentCandidatureRepository.save(document1);
+        document1.setCandidature(document.getCandidature());
+        document1.setNomPieceJointe(document.getNomPieceJointe());
+        document1.setPieceJointe(document.getPieceJointe());
+        return this.save(document1);
     }
 }

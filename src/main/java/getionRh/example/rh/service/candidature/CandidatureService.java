@@ -11,7 +11,8 @@ public interface CandidatureService {
 
     Candidature getById(Integer id);
 
-    void delete(Candidature candidature);
+
+    void delete(Integer id);
 
     Candidature update(Integer id, Candidature candidature);
 }

@@ -12,7 +12,7 @@ public interface EtatCandidatureService {
 
     EtatCandidature getById(Integer id)throws WsException;
 
-    void delete(EtatCandidature etat);
+     void delete(Integer id);
 
     EtatCandidature update(Integer id, EtatCandidature etat);
 

@@ -49,8 +49,9 @@ public class PosteDeTravailServiceImp implements PosteDeTravailService {
     @Override
     public PosteDeTravail update(Integer id, PosteDeTravail poste){
         PosteDeTravail poste1 = this.getById(id);
-        poste1.setId(poste.getId());
-        return posteDeTravailRepository.save(poste1);
+        poste1.setNom(poste.getNom());
+        poste1.setReference(poste.getReference());
+        return this.save(poste1);
     }
 
 

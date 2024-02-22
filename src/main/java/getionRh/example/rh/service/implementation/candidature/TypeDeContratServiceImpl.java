@@ -51,8 +51,8 @@ public class TypeDeContratServiceImpl implements TypeDeContratService {
     @Override
     public TypeDeContrat update(Integer id, TypeDeContrat contrat){
         TypeDeContrat contrat1 = this.getById(id);
-        contrat1.setId(contrat.getId());
-        return typeDeContratRepository.save(contrat1);
+        contrat1.setType(contrat.getType());
+        return this.save(contrat1);
     }
 
 

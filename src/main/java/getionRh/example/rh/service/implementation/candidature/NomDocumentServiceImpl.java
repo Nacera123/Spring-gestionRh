@@ -48,7 +48,7 @@ public class NomDocumentServiceImpl implements NomDocumentService {
     @Override
     public NomDocument update(Integer id, NomDocument nom){
         NomDocument nom1 = this.getById(id);
-        nom1.setId(nom.getId());
-        return nomDocumentRepository.save(nom1);
+        nom1.setNom(nom.getNom());
+        return this.save(nom1);
     }
 }
