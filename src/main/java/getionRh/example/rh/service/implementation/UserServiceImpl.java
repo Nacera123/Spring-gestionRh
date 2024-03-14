@@ -1,6 +1,5 @@
 package getionRh.example.rh.service.implementation;
 
-import getionRh.example.rh.entity.Individu;
 import getionRh.example.rh.entity.User;
 import getionRh.example.rh.exception.WsException;
 import getionRh.example.rh.repository.UserRepository;
@@ -12,7 +11,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -67,6 +65,13 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("User not found");
         }
         return userDetails;
+    }
+
+
+
+    @Override
+    public User loadUserByRole(String nom){
+        return userRepository.findByRoles_NomIgnoreCase(nom);
     }
 
 }

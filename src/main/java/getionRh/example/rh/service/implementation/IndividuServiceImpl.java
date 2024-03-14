@@ -1,9 +1,11 @@
 package getionRh.example.rh.service.implementation;
 
 import getionRh.example.rh.entity.Individu;
+import getionRh.example.rh.exception.WsException;
 import getionRh.example.rh.repository.IndividuRepository;
 import getionRh.example.rh.service.IndividuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +19,10 @@ public class IndividuServiceImpl implements IndividuService {
 
 
     @Override
-    public Individu save(Individu individu){
+    public Individu save(Individu individu)throws WsException {
+        if (individu.getPrenom().isEmpty() || individu.getNom().isEmpty() || individu.getTelephone().isEmpty()){
+            throw new WsException(HttpStatus.BAD_REQUEST, "Veuillez remplir tous les champs");
+        }
         return individuRepository.save(individu);
     }
     @Override

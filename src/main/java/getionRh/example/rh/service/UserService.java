@@ -18,4 +18,5 @@ public interface UserService {
 
     public User save(User user);
 
+    User loadUserByRole(String nom);
 }

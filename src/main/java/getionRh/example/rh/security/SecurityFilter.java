@@ -30,7 +30,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         //1-n'execute que les requetes qui vont commencer par "/api/"
-        if (request.getRequestURI().startsWith("/api")){
+        if (request.getRequestURI().startsWith("/api") || request.getRequestURI().startsWith("/etat-candidature") ){
             filterChain.doFilter(request,response);
             return;
         }

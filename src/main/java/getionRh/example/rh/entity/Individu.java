@@ -22,11 +22,11 @@ public class Individu {
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String nom;
 
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String prenom;
 
     @Column(name = "date_de_naissance", nullable = true)
@@ -35,7 +35,7 @@ public class Individu {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String telephone;
 
     private String adresse;
