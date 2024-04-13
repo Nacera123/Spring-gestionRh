@@ -26,8 +26,16 @@ public class DocumentCandidatureServiceImpl implements DocumentCandidatureServic
     }
 
     @Override
-    public List<DocumentCandidature> getAll(){
-        return documentCandidatureRepository.findAll();
+    public List<DocumentCandidature> getAll()throws WsException{
+
+        List<DocumentCandidature> doc = documentCandidatureRepository.findAll();
+
+        if (doc.isEmpty()){
+            throw new WsException(HttpStatus.NOT_FOUND, "La liste des documents est vide");
+        }else{
+
+        return doc;
+        }
     }
 
     @Override

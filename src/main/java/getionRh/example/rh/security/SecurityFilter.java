@@ -42,7 +42,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (token == null || token.startsWith("Bearer")){
             filterChain.doFilter(request,response);
         }
-        //2- b : si c'est ok lire a partir du septieme catartere "prendre espace"
+        //2- b : si c'est ok lire a partir du septieme caractere "prendre espace"
         try {
             //ici on recuppere la token readToken du JwtTokenGenerater a partir du "Bearer "
             token = JwtTokenGenerater.readToken(token.substring(7));

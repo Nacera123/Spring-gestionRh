@@ -24,8 +24,15 @@ public class NomDocumentServiceImpl implements NomDocumentService {
     }
 
     @Override
-    public List<NomDocument> getAll(){
-        return nomDocumentRepository.findAll();
+    public List<NomDocument> getAll()throws WsException{
+        List<NomDocument> nomDocuments = nomDocumentRepository.findAll();
+        if(nomDocuments.isEmpty()){
+            throw new WsException(HttpStatus.NOT_FOUND, "le document n'a pas de nom");
+        }else{
+
+        return nomDocuments;
+        }
+
     }
 
     @Override

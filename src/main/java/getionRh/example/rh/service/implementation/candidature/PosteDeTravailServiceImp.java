@@ -25,8 +25,15 @@ public class PosteDeTravailServiceImp implements PosteDeTravailService {
     }
 
     @Override
-    public List<PosteDeTravail> getAll(){
-        return posteDeTravailRepository.findAll();
+    public List<PosteDeTravail> getAll()throws  WsException{
+        List<PosteDeTravail> posteDeTravails = posteDeTravailRepository.findAll();
+        if(posteDeTravails.isEmpty()){
+            throw new WsException(HttpStatus.NOT_FOUND, "la liste des poste est vide");
+        }else {
+
+                return posteDeTravails;
+        }
+
     }
 
     @Override

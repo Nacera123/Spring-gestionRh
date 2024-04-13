@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/individu")
 public class IndividuController {
 
@@ -23,7 +24,7 @@ public class IndividuController {
      * @param individu
      * @return
      */
-    @PostMapping("add")
+    @PostMapping("/add")
     public IndividuDto addIndividu(@RequestBody Individu individu, @RequestParam  String etaCivil, @RequestParam String situationFamiliale){
         EtatCivilEnum etatCivilEnum = EtatCivilEnum.getEtatCivilEnumFromDesignation(etaCivil);
         individu.setEtatCivilEnum(etatCivilEnum);
@@ -36,7 +37,7 @@ public class IndividuController {
 
 
 
-    @GetMapping
+    @GetMapping("/get")
     public List<IndividuDto> getAllIndividu(){
         List<Individu> individuList= individuService.getAll();
         List<IndividuDto> individuDtoList = new ArrayList<>();

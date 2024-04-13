@@ -25,8 +25,16 @@ public class PosteVacantServiceImpl implements PosteVacantService {
     }
 
     @Override
-    public List<PosteVacant> getAll(){
-        return posteVacantRepository.findAll();
+    public List<PosteVacant> getAll()throws WsException{
+        List<PosteVacant> posteVacants =  posteVacantRepository.findAll();
+
+
+        if (posteVacants.isEmpty()){
+            throw new WsException(HttpStatus.NOT_FOUND, "la liste des postes vacants est vide");
+        }else {
+            return posteVacants;
+        }
+
     }
 
     @Override
