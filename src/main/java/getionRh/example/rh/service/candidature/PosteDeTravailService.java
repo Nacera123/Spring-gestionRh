@@ -12,7 +12,14 @@ public interface PosteDeTravailService {
 
     PosteDeTravail getById(Integer id)throws WsException;
 
-    void delete(PosteDeTravail poste);
+    //void delete(PosteDeTravail poste);
+
+    void deletePoste(PosteDeTravail poste);
+
+    //    public void delete(PosteDeTravail poste){
+//        posteDeTravailRepository.delete(poste);
+//    }
+    void  delete(Integer id);
 
     PosteDeTravail update(Integer id, PosteDeTravail poste);
 }

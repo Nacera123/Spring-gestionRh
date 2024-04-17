@@ -49,8 +49,11 @@ public class PosteDeTravailServiceImp implements PosteDeTravailService {
     }
 
     @Override
-    public void delete(PosteDeTravail poste){
+    public void deletePoste(PosteDeTravail poste){
         posteDeTravailRepository.delete(poste);
+    }
+    public void  delete(Integer id){
+            posteDeTravailRepository.deleteById(id);
     }
 
     @Override

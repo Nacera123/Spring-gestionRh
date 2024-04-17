@@ -24,8 +24,16 @@ public class SessionCandidatureServiceImpl implements SessionCandidatureService 
     }
 
     @Override
-    public List<SessionCandidature> getAll(){
-        return sessionCandidatureRepository.findAll();
+    public List<SessionCandidature> getAll() throws WsException{
+
+        List<SessionCandidature> sessionCandidatures = sessionCandidatureRepository.findAll();
+
+        if (sessionCandidatures.isEmpty()){
+            throw new WsException(HttpStatus.NOT_FOUND, "la liste des sessions est vide");
+        }else {
+            return sessionCandidatures;
+        }
+
     }
 
     @Override
