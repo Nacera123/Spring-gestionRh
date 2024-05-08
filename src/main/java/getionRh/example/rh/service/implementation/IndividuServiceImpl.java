@@ -20,9 +20,15 @@ public class IndividuServiceImpl implements IndividuService {
 
     @Override
     public Individu save(Individu individu)throws WsException {
+        String regexp = "^|([a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)";
+
         if (individu.getPrenom().isEmpty() || individu.getNom().isEmpty() || individu.getTelephone().isEmpty()){
             throw new WsException(HttpStatus.BAD_REQUEST, "Veuillez remplir tous les champs");
         }
+        if (!individu.getEmail().matches(".+@.+\\.[a-z]+")){
+            throw  new WsException(HttpStatus.BAD_REQUEST, "Entrez un email valide " + individu.getEmail());
+        }
+
         return individuRepository.save(individu);
     }
     @Override

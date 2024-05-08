@@ -3,6 +3,7 @@ package getionRh.example.rh.service.implementation.candidature;
 
 
 import getionRh.example.rh.entity.candidature.PosteVacant;
+import getionRh.example.rh.entity.candidature.SessionCandidature;
 import getionRh.example.rh.exception.WsException;
 import getionRh.example.rh.repository.candidature.PosteVacantRepository;
 import getionRh.example.rh.service.candidature.PosteVacantService;
@@ -20,7 +21,18 @@ public class PosteVacantServiceImpl implements PosteVacantService {
     private PosteVacantRepository posteVacantRepository;
 
     @Override
-    public PosteVacant save(PosteVacant poste){
+    public PosteVacant save(PosteVacant poste)throws Exception{
+
+        if (poste.getPoste().getNom() ==null ){
+            throw new Exception("Veuillez ajouter la reference du poste de travail");
+        }
+        if (poste.getSession().getReference() == null ){
+            throw new Exception("veuillez remplir une refere valide pour le poste a pourvoir");
+        }
+        if (poste.getDescriptif() == null || poste.getDescriptif().isEmpty()){
+            throw new Exception("Veuillez remplir un descriptif valide pour le poste a pourvoir");
+        }
+
         return posteVacantRepository.save(poste);
     }
 
@@ -57,7 +69,7 @@ public class PosteVacantServiceImpl implements PosteVacantService {
 
 
     @Override
-    public PosteVacant update(Integer id, PosteVacant poste){
+    public PosteVacant update(Integer id, PosteVacant poste)throws Exception{
         PosteVacant poste1 = this.getById(id);
         poste1.setPoste(poste.getPoste());
         poste1.setDescriptif(poste.getDescriptif());

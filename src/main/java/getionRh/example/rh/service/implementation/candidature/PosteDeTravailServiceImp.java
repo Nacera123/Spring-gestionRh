@@ -20,7 +20,17 @@ public class PosteDeTravailServiceImp implements PosteDeTravailService {
     private PosteDeTravailRepository posteDeTravailRepository;
 
     @Override
-    public PosteDeTravail save(PosteDeTravail poste){
+    public PosteDeTravail save(PosteDeTravail poste)throws Exception{
+
+        if (poste.getNom() == "" || poste.getNom().isEmpty()){
+            throw new Exception("Veuillez remplir un nom de poste valide  ");
+        }
+        if (poste.getReference() == ""|| poste.getReference().isEmpty()){
+            throw new Exception("Veuillez remplir un nom de poste valide  ");
+        }
+        if (posteDeTravailRepository.existsByReferenceIgnoreCase(poste.getReference())){
+            throw new Exception("cette reference existe deja. Veuillez choisir une autre reference");
+        }
         return posteDeTravailRepository.save(poste);
     }
 
@@ -57,11 +67,23 @@ public class PosteDeTravailServiceImp implements PosteDeTravailService {
     }
 
     @Override
-    public PosteDeTravail update(Integer id, PosteDeTravail poste){
+    public PosteDeTravail update(Integer id, PosteDeTravail poste)throws Exception{
         PosteDeTravail poste1 = this.getById(id);
         poste1.setNom(poste.getNom());
         poste1.setReference(poste.getReference());
         return this.save(poste1);
+    }
+
+    @Override
+    public PosteDeTravail getByNom(String nom)throws Exception{
+        Optional<PosteDeTravail> optional = Optional.ofNullable(posteDeTravailRepository.findByNomIgnoreCase(nom));
+        PosteDeTravail poste;
+        if (optional.isPresent()){
+            poste = optional.get();
+        }else {
+            throw new Exception("Le poste " + nom + " n'existe pas");
+        }
+        return poste;
     }
 
 

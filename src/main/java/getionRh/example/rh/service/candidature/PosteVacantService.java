@@ -6,7 +6,7 @@ import getionRh.example.rh.exception.WsException;
 import java.util.List;
 
 public interface PosteVacantService {
-    PosteVacant save(PosteVacant poste);
+    PosteVacant save(PosteVacant poste) throws Exception;
 
     List<PosteVacant> getAll();
 
@@ -14,5 +14,5 @@ public interface PosteVacantService {
 
     void delete(PosteVacant poste);
 
-    PosteVacant update(Integer id, PosteVacant poste);
+    PosteVacant update(Integer id, PosteVacant poste) throws Exception;
 }

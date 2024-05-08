@@ -24,12 +24,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user)throws WsException {
-        if (user.getEmail().isEmpty() || user.getPassword().isEmpty()){
+        String regexp = "^|([a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)";
+        if (user.getEmail().isEmpty() || user.getPassword().isEmpty() ){
             throw new WsException(HttpStatus.BAD_REQUEST, "Veuillez remplir tout les champs");
         }
         if (userRepository.existsByEmailLikeIgnoreCase(user.getEmail())){
             throw  new WsException(HttpStatus.BAD_REQUEST, "l'email existe deja");
         }
+        if (!user.getEmail().matches(".+@.+\\.[a-z]+")){
+            throw  new WsException(HttpStatus.BAD_REQUEST, "entrez un email valid" + user.getEmail());
+        }
+
 
 
         return userRepository.save(user);

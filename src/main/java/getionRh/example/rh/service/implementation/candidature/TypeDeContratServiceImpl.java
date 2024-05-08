@@ -56,8 +56,17 @@ public class TypeDeContratServiceImpl implements TypeDeContratService {
     }
 
 
-
-
+    @Override
+    public TypeDeContrat getByType(String type)throws Exception{
+        Optional<TypeDeContrat> optional = Optional.ofNullable(typeDeContratRepository.findByTypeIgnoreCase(type));
+        TypeDeContrat contrat;
+        if (optional.isPresent()){
+            contrat = optional.get();
+        }else {
+            throw new Exception("Le contrat en " + type + " n'existe pas");
+        }
+        return contrat;
+    }
 
 
     @Override

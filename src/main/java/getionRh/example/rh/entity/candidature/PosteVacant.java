@@ -18,7 +18,7 @@ public class PosteVacant {
     @ManyToOne
     private SessionCandidature session;
 
-    @OneToOne
+    @ManyToOne
     private PosteDeTravail poste;
 
     @ManyToOne

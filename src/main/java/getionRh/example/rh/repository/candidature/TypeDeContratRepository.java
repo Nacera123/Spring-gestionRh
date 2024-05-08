@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TypeDeContratRepository extends JpaRepository<TypeDeContrat, Integer> {
+    TypeDeContrat findByTypeIgnoreCase(String type);
 }

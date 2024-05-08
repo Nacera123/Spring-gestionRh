@@ -16,5 +16,7 @@ public interface TypeDeContratService {
 
     TypeDeContrat update(Integer id, TypeDeContrat contrat);
 
+    TypeDeContrat getByType(String type)throws Exception;
+
     long count();
 }

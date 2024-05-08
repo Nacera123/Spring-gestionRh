@@ -4,6 +4,7 @@ package getionRh.example.rh.entity;
 import getionRh.example.rh.enumerate.EtatCivilEnum;
 import getionRh.example.rh.enumerate.SituationFamilialeEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 import java.sql.Date;
@@ -32,8 +33,11 @@ public class Individu {
     @Column(name = "date_de_naissance", nullable = true)
     private Date dateDeNaissance;
 
-    @Column(nullable = false)
+
+    @Column(name = "email", nullable = false)
+    @Pattern(regexp = "^|([a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)", message = "Invalid email")
     private String email;
+
 
     @Column(nullable = false)
     private String telephone;

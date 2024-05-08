@@ -2,6 +2,7 @@ package getionRh.example.rh.controller.candidature;
 
 
 import getionRh.example.rh.entity.candidature.PosteDeTravail;
+import getionRh.example.rh.entity.candidature.SessionCandidature;
 import getionRh.example.rh.exception.WsException;
 import getionRh.example.rh.service.implementation.candidature.PosteDeTravailServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,22 @@ public class PosteDeTravailController {
         }catch (WsException e){
             return ResponseEntity.status(e.getStatusCode())
                     .body(e.getMessage());
+
         }
     }
 
 
     @PostMapping("/add")
-    public PosteDeTravail addPoste(@RequestBody PosteDeTravail posteDeTravail){
-        return posteDeTravailService.save(posteDeTravail);
+    public ResponseEntity<?>addPoste(@RequestBody PosteDeTravail posteDeTravail)throws Exception{
+        try {
+            PosteDeTravail posteDeTravail1 = posteDeTravailService.save(posteDeTravail);
+            return ResponseEntity.ok(posteDeTravail1);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body( e.getMessage());
+        }
+
+        //return posteDeTravailService.save(posteDeTravail);
     }
 
     @GetMapping("/{id}")
@@ -53,8 +63,19 @@ public class PosteDeTravailController {
      * @return
      */
     @PostMapping("/{id}/update")
-    public PosteDeTravail updatePoste(@PathVariable(value = "id") int id, @RequestBody PosteDeTravail posteDeTravail){
-//        try {
+    public ResponseEntity<?> updatePoste(@PathVariable(value = "id") int id, @RequestBody PosteDeTravail posteDeTravail)throws Exception{
+
+        try {
+            posteDeTravailService.update(id, posteDeTravail);
+            PosteDeTravail posteDeTravailMiseAJour = posteDeTravailService.getById(id);
+            return  ResponseEntity.ok(posteDeTravailMiseAJour);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body( e.getMessage());
+        }
+
+
+        //        try {
 //            posteDeTravailService.update(id, posteDeTravail);
 //
 //            PosteDeTravail posteDeTravailMiseAJour = posteDeTravailService.getById(id);
@@ -63,7 +84,7 @@ public class PosteDeTravailController {
 //            return ResponseEntity.status(e.getStatusCode())
 //                    .body(e.getMessage());
 //        }
-        return      posteDeTravailService.update(id, posteDeTravail);
+        //return      posteDeTravailService.update(id, posteDeTravail);
 
     }
 
@@ -92,6 +113,12 @@ public class PosteDeTravailController {
   
                 posteDeTravailService.delete(id);
 
+    }
+
+
+    @GetMapping("/detail/{nom}")
+    public PosteDeTravail getPosteByNom(@PathVariable String nom)throws Exception{
+        return posteDeTravailService.getByNom(nom);
     }
 
 

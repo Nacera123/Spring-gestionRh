@@ -33,6 +33,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (request.getRequestURI().startsWith("/api")
                 || request.getRequestURI().startsWith("/etat-candidature")
                 || request.getRequestURI().startsWith("/poste-de-travail")
+                || request.getRequestURI().startsWith("/session-candidature")
         ){
             filterChain.doFilter(request,response);
             return;
