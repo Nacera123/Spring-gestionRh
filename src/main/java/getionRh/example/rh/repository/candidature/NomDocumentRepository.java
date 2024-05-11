@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface NomDocumentRepository extends JpaRepository<NomDocument, Integer> {
     boolean existsByNomIgnoreCase(String nom);
+
+    NomDocument findByNomIgnoreCase(String nom);
 }

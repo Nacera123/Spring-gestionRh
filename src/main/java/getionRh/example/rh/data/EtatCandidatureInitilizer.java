@@ -18,6 +18,7 @@ public class EtatCandidatureInitilizer implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         if(etatCandidatureService.count() == 0){
             String[] etat = {
+                    "Candidature envoyée",
                     "Candidature consultée par le recruteur",
                     "Candidature  En cours de traitement",
                     "Candidature  Refusée",

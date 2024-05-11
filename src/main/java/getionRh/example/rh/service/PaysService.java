@@ -19,4 +19,5 @@ public interface PaysService {
         public void delete(Pays pays);
 
 
+        Pays getDesignation(String designation);
 }

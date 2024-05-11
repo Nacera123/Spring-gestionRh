@@ -2,10 +2,10 @@ package getionRh.example.rh.controller.candidature;
 
 
 import getionRh.example.rh.entity.candidature.NomDocument;
-import getionRh.example.rh.exception.ResponeExtendException;
 import getionRh.example.rh.exception.WsException;
 import getionRh.example.rh.service.implementation.candidature.NomDocumentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,51 +22,75 @@ public class NomDocumentController {
     public ResponseEntity<?> getAll(){
         try {
             return ResponseEntity.ok(nomDocumentService.getAll());
-        }catch (ResponeExtendException e){
-            return ResponseEntity
-                    .status(e.getStatusCode())
-                    .body(e.getMessage());
-        }
-    }
-
-    @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody NomDocument nomDocument) {
-        try {
-            return ResponseEntity.ok(nomDocumentService.save(nomDocument));
         }catch (WsException e){
             return ResponseEntity.status(e.getStatusCode())
                     .body(e.getMessage());
+
         }
+    }
+
+
+    @PostMapping("/add")
+    public ResponseEntity<?>addPoste(@RequestBody NomDocument posteDeTravail)throws Exception{
+        try {
+            NomDocument posteDeTravail1 = nomDocumentService.save(posteDeTravail);
+            return ResponseEntity.ok(posteDeTravail1);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body( e.getMessage());
+        }
+
+        //return posteDeTravailService.save(posteDeTravail);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getNomDocById(@RequestParam int id) {
+    public ResponseEntity<?> getPosteById(@PathVariable Integer id) {
         try {
-            return ResponseEntity.ok(nomDocumentService.getById(id));
-        }catch (WsException e){
+            NomDocument posteDeTravail = nomDocumentService.getById(id);
+            return ResponseEntity.ok(posteDeTravail);
+        } catch (WsException e ) {
             return ResponseEntity.status(e.getStatusCode())
                     .body(e.getMessage());
         }
     }
 
+    /**
+     * Update
+     * @param id
+     * @param posteDeTravail
+     * @return
+     */
     @PostMapping("/{id}/update")
-    public ResponseEntity<?> updateNomDoc(@PathVariable int id, @RequestBody NomDocument nomDocument) {
+    public ResponseEntity<?> updatePoste(@PathVariable(value = "id") int id, @RequestBody NomDocument posteDeTravail)throws Exception{
+
         try {
-            return ResponseEntity.ok(nomDocumentService.update(id, nomDocument));
-
-        }catch (WsException e){
-          return   ResponseEntity.status(e.getStatusCode())
-                    .body(e.getMessage());
+            nomDocumentService.update(id, posteDeTravail);
+            NomDocument posteDeTravailMiseAJour = nomDocumentService.getById(id);
+            return  ResponseEntity.ok(posteDeTravailMiseAJour);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body( e.getMessage());
         }
+
+
     }
 
-    @DeleteMapping("/delete")
-    public void delete( @RequestBody NomDocument nomDocument , @RequestParam int id) {
-            NomDocument docId = nomDocumentService.getById(id);
 
-            if (docId != null) {
-            nomDocumentService.delete(docId);
 
-            }
+    @DeleteMapping("/delete/{id}")
+    public void deletePosteDeTravailService(@PathVariable int id){
+
+
+        nomDocumentService.delete(id);
+
     }
+
+
+    @GetMapping("/detail/{nom}")
+    public NomDocument getPosteByNom(@PathVariable String nom)throws Exception{
+        return nomDocumentService.getByNom(nom);
+    }
+
+
+
 }

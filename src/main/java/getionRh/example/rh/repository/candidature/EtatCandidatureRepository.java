@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EtatCandidatureRepository extends JpaRepository<EtatCandidature, Integer> {
+    EtatCandidature findByEtatIgnoreCase(String etat);
 }

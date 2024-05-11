@@ -66,5 +66,15 @@ public class EtatCandidatureController {
         }
     }
 
+    @GetMapping("/list/etats/{etat}")
+    public ResponseEntity<?> getEtatCategorie(@PathVariable(value = "etat") String etat){
+        try {
+            return  ResponseEntity.ok(etatCandidatureService.getByEtat(etat));
+        }catch (WsException e){
+            return  ResponseEntity.status(e.getStatusCode())
+                    .body(e.getMessage());
+        }
+    }
+
 
 }

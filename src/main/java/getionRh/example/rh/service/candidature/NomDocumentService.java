@@ -6,13 +6,18 @@ import getionRh.example.rh.exception.WsException;
 import java.util.List;
 
 public interface NomDocumentService {
-    NomDocument save(NomDocument nom);
+
+
+    NomDocument save(NomDocument poste)throws Exception;
 
     List<NomDocument> getAll();
 
     NomDocument getById(Integer id)throws WsException;
 
-    void delete(NomDocument etat);
 
-    NomDocument update(Integer id, NomDocument nom);
+    void deletePoste(NomDocument poste);
+
+    void delete(Integer id);
+
+    NomDocument update(Integer id, NomDocument nom)throws Exception;
 }

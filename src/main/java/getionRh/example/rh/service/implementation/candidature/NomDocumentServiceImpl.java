@@ -2,7 +2,6 @@ package getionRh.example.rh.service.implementation.candidature;
 
 
 import getionRh.example.rh.entity.candidature.NomDocument;
-import getionRh.example.rh.exception.ResponeExtendException;
 import getionRh.example.rh.exception.WsException;
 import getionRh.example.rh.repository.candidature.NomDocumentRepository;
 import getionRh.example.rh.service.candidature.NomDocumentService;
@@ -19,51 +18,69 @@ public class NomDocumentServiceImpl implements NomDocumentService {
     @Autowired
     private NomDocumentRepository nomDocumentRepository;
 
+
     @Override
-    public NomDocument save(NomDocument nom)throws ResponeExtendException{
-        if (nom.getNom() == "" || nom.getNom().isEmpty() ){
-            throw  new ResponeExtendException(HttpStatus.BAD_REQUEST, "Veulliez remplir un nom valide");
-        }if (nomDocumentRepository.existsByNomIgnoreCase(nom.getNom().toLowerCase())){
-            throw  new ResponeExtendException(HttpStatus.CONFLICT, "ce type de document existe deja");
+    public NomDocument save(NomDocument poste)throws Exception{
+
+        if (poste.getNom() == "" || poste.getNom().isEmpty()){
+            throw new Exception("Veuillez remplir un nom de poste valide  ");
         }
 
-        return nomDocumentRepository.save(nom);
+        return nomDocumentRepository.save(poste);
     }
 
-    @Override
-    public List<NomDocument> getAll()throws ResponeExtendException {
-        List<NomDocument> nomDocuments = nomDocumentRepository.findAll();
-        if(nomDocuments.isEmpty()){
-            throw new ResponeExtendException(HttpStatus.NOT_FOUND, "le document n'a pas de nom");
-        }else{
-
-        return nomDocuments;
-        }
-
-    }
 
     @Override
-    public NomDocument getById(Integer id)throws ResponeExtendException {
-        Optional<NomDocument> optional = nomDocumentRepository.findById(id);
-        NomDocument nom;
-        if (optional.isPresent()){
-            nom = optional.get();
+    public List<NomDocument> getAll()throws WsException {
+        List<NomDocument> posteDeTravails = nomDocumentRepository.findAll();
+        if(posteDeTravails.isEmpty()){
+            throw new WsException(HttpStatus.NOT_FOUND, "la liste des poste est vide");
         }else {
-            throw new ResponeExtendException(HttpStatus.NOT_FOUND, "Le document "+id+ " n'existe pas");
+
+            return posteDeTravails;
         }
-        return nom;
+
     }
 
     @Override
-    public void delete(NomDocument etat){
-        nomDocumentRepository.delete(etat);
+    public NomDocument getById(Integer id)throws WsException {
+        Optional<NomDocument> optional = nomDocumentRepository.findById(id);
+        NomDocument poste;
+        if (optional.isPresent()){
+            poste = optional.get();
+        }else {
+            throw new WsException(HttpStatus.NOT_FOUND, "Le document "+id+ " n'existe pas");
+        }
+        return poste;
+    }
+
+
+    @Override
+    public void deletePoste(NomDocument poste){
+        nomDocumentRepository.delete(poste);
     }
 
     @Override
-    public NomDocument update(Integer id, NomDocument nom)throws ResponeExtendException{
+    public void  delete(Integer id){
+        nomDocumentRepository.deleteById(id);
+    }
 
-        NomDocument nom1 = this.getById(id);
-        nom1.setNom(nom.getNom());
-        return this.save(nom1);
+
+    @Override
+    public NomDocument update(Integer id, NomDocument poste)throws Exception{
+        NomDocument poste1 = this.getById(id);
+        poste1.setNom(poste.getNom());
+        return this.save(poste1);
+    }
+
+    public NomDocument getByNom(String nom)throws Exception{
+        Optional<NomDocument> optional = Optional.ofNullable(nomDocumentRepository.findByNomIgnoreCase(nom));
+        NomDocument poste;
+        if (optional.isPresent()){
+            poste = optional.get();
+        }else {
+            throw new Exception("Le poste " + nom + " n'existe pas");
+        }
+        return poste;
     }
 }

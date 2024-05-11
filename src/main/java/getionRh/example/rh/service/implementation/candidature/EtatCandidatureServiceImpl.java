@@ -66,4 +66,9 @@ public class EtatCandidatureServiceImpl implements EtatCandidatureService {
     public long count(){
         return etatCandidatureRepository.count();
     }
+
+    public  EtatCandidature getByEtat(String etat){
+        return  etatCandidatureRepository.findByEtatIgnoreCase(etat);
+    }
+
 }

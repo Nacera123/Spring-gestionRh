@@ -40,4 +40,10 @@ public class PaysServiceImpl implements PaysService {
     public void delete(Pays pays) {
         paysRepository.delete(pays);
     }
+
+
+    @Override
+    public  Pays getDesignation(String designation){
+        return paysRepository.findByDesignationIgnoreCase(designation);
+    }
 }
