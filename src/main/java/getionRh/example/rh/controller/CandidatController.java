@@ -3,10 +3,11 @@ package getionRh.example.rh.controller;
 
 import getionRh.example.rh.dto.CandidatDto;
 import getionRh.example.rh.entity.Candidat;
+import getionRh.example.rh.entity.Civilite;
 import getionRh.example.rh.entity.Individu;
-import getionRh.example.rh.enumerate.EtatCivilEnum;
 import getionRh.example.rh.enumerate.SituationFamilialeEnum;
 import getionRh.example.rh.service.implementation.CandidatServiceImpl;
+import getionRh.example.rh.service.implementation.CiviliteServiceImpl;
 import getionRh.example.rh.service.implementation.IndividuServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,8 @@ public class CandidatController {
 
     @Autowired private CandidatServiceImpl candidatService;
     @Autowired private IndividuServiceImpl individuService;
+    @Autowired
+    private CiviliteServiceImpl civiliteService;
 
 
     @GetMapping
@@ -34,8 +37,9 @@ public class CandidatController {
 
     @PostMapping("/add")
     public CandidatDto addCandidat(@RequestBody Individu individu,@RequestParam  String etaCivil, @RequestParam String situationFamiliale){
-        EtatCivilEnum etatCivilEnum = EtatCivilEnum.getEtatCivilEnumFromDesignation(etaCivil);
-        individu.setEtatCivilEnum(etatCivilEnum);
+        Civilite civ = civiliteService.getByDesignation(etaCivil);
+        individu.setCivilite(civ);
+               
 
         SituationFamilialeEnum situationFamilialeEnum = SituationFamilialeEnum.getSituationFamilialeEnumByDesignation(situationFamiliale);
         individu.setSituationFamiliale(situationFamilialeEnum);

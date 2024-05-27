@@ -22,5 +22,5 @@ public class Candidature {
     private EtatCandidature etatCandidature;
 
     @ManyToOne
-    private PosteVacant poste;
+    private PosteVacant posteVacant;
 }

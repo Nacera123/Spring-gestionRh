@@ -66,7 +66,10 @@ public class IndividuDto {
         cp = individu.getCp();
         ville = individu.getVille();
         nombreEnfant = individu.getNombreEnfant();
-        etatCivilEnum = individu.getEtatCivilEnum()==null ? "":individu.getEtatCivilEnum().getAbreviation();
+
+
+        ///etatCivilEnum = individu.getEtatCivilEnum()==null ? "":individu.getEtatCivilEnum().getAbreviation();
+        etatCivilEnum = individu.getCivilite().getDesignation();
         pays = new PaysDto(individu.getPays());
         situationFamiliale = individu.getSituationFamiliale()==null? "":individu.getSituationFamiliale().toString();
     }

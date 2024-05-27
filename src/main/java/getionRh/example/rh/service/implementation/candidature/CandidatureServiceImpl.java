@@ -60,7 +60,7 @@ public class CandidatureServiceImpl implements CandidatureService {
         Candidature candidature1 = this.getById(id);
         candidature1.setEtatCandidature(candidature.getEtatCandidature());
         candidature1.setIndividu(candidature.getIndividu());
-        candidature1.setPoste(candidature.getPoste());
+        candidature1.setPosteVacant(candidature.getPosteVacant());
         return this.save(candidature1);
     }
 }

@@ -2,10 +2,11 @@ package getionRh.example.rh.controller;
 
 
 import getionRh.example.rh.dto.IndividuDto;
+import getionRh.example.rh.entity.Civilite;
 import getionRh.example.rh.entity.Individu;
-import getionRh.example.rh.enumerate.EtatCivilEnum;
 import getionRh.example.rh.enumerate.SituationFamilialeEnum;
 //import getionRh.example.rh.service.IndividuService;
+import getionRh.example.rh.service.implementation.CiviliteServiceImpl;
 import getionRh.example.rh.service.implementation.IndividuServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,14 +21,18 @@ public class IndividuController {
 
     @Autowired private IndividuServiceImpl individuService;
 
+    @Autowired
+    private CiviliteServiceImpl civiliteService;
+
     /**
      * @param individu
      * @return
      */
     @PostMapping("/add")
     public IndividuDto addIndividu(@RequestBody Individu individu, @RequestParam  String etaCivil, @RequestParam String situationFamiliale){
-        EtatCivilEnum etatCivilEnum = EtatCivilEnum.getEtatCivilEnumFromDesignation(etaCivil);
-        individu.setEtatCivilEnum(etatCivilEnum);
+        Civilite civ = civiliteService.getByDesignation(etaCivil);
+        individu.setCivilite(civ);
+
 
         SituationFamilialeEnum situationFamilialeEnum = SituationFamilialeEnum.getSituationFamilialeEnumByDesignation(situationFamiliale);
         individu.setSituationFamiliale(situationFamilialeEnum);

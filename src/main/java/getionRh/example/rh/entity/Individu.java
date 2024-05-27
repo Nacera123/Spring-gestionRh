@@ -1,10 +1,8 @@
 package getionRh.example.rh.entity;
 
 
-import getionRh.example.rh.enumerate.EtatCivilEnum;
 import getionRh.example.rh.enumerate.SituationFamilialeEnum;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 import java.sql.Date;
@@ -13,12 +11,6 @@ import java.sql.Date;
 @Entity
 public class Individu {
 
-//    public Individu(){
-//        this.nom = "";
-//        this.prenom = "";
-//        this.email = "";
-//        this.telephone = "";
-//    }
 
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -30,12 +22,10 @@ public class Individu {
     @Column(nullable = false)
     private String prenom;
 
-    @Column(name = "date_de_naissance", nullable = true)
+
     private Date dateDeNaissance;
 
 
-    @Column(name = "email", nullable = false)
-    @Pattern(regexp = "^|([a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)", message = "Invalid email")
     private String email;
 
 
@@ -50,7 +40,7 @@ public class Individu {
     @Column(nullable = true)
     private String ville;
 
-    @Column(name = "nombre_enfant", nullable = true)
+
     private int nombreEnfant;
 
 
@@ -58,11 +48,11 @@ public class Individu {
     private Pays pays;
 
 
-    @Column(name = "etat_civil", nullable = true)
-    @Enumerated(EnumType.STRING)
-    private EtatCivilEnum etatCivilEnum;
 
-    @Column(name = "situation_familiale", nullable = true)
+    @ManyToOne
+    private Civilite civilite;
+
+    @Column(nullable = true)
     @Enumerated(EnumType.STRING)
     private SituationFamilialeEnum situationFamiliale;
 }

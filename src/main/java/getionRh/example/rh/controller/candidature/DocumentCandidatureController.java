@@ -3,16 +3,15 @@ package getionRh.example.rh.controller.candidature;
 
 
 import getionRh.example.rh.dto.GestionCandidatureDto;
+import getionRh.example.rh.entity.Civilite;
 import getionRh.example.rh.entity.Individu;
 import getionRh.example.rh.entity.Pays;
 import getionRh.example.rh.entity.candidature.Candidature;
 import getionRh.example.rh.entity.candidature.DocumentCandidature;
 import getionRh.example.rh.entity.candidature.EtatCandidature;
 import getionRh.example.rh.entity.candidature.NomDocument;
-import getionRh.example.rh.enumerate.EtatCivilEnum;
 import getionRh.example.rh.exception.WsException;
-import getionRh.example.rh.service.IndividuService;
-import getionRh.example.rh.service.implementation.CiviliteEnumService;
+import getionRh.example.rh.service.implementation.CiviliteServiceImpl;
 import getionRh.example.rh.service.implementation.IndividuServiceImpl;
 import getionRh.example.rh.service.implementation.PaysServiceImpl;
 import getionRh.example.rh.service.implementation.candidature.*;
@@ -41,8 +40,6 @@ public class DocumentCandidatureController {
     @Autowired
     private PaysServiceImpl paysService;
 
-    @Autowired
-    private CiviliteEnumService civiliteEnumService;
 
     @Autowired
     private PosteVacantServiceImpl posteVacantService;
@@ -50,6 +47,8 @@ public class DocumentCandidatureController {
     @Autowired
     private EtatCandidatureServiceImpl etatCandidatureService;
 
+    @Autowired
+    private CiviliteServiceImpl civiliteService;
 
 
     @GetMapping("/list")
@@ -62,6 +61,22 @@ public class DocumentCandidatureController {
         }
     }
 
+//    @GetMapping("/enum/{designation}")
+//    public EtatCivilEnum getByDes(@PathVariable String designation){
+//        return civiliteEnumService.getByDesignation(designation);
+//    }
+//
+//    @GetMapping("/string/string/{designation}")
+//    public String getDes(@PathVariable String designation) {
+//        EtatCivilEnum etatCivilEnum = EtatCivilEnum.fromString(designation);
+//        return etatCivilEnum.getDesignation();
+//    }
+//
+//    @GetMapping("/enum")
+//    public List<EtatCivilEnum> getAllEnum(){
+//        return EtatCivilEnum.getAll();
+//    }
+
     @PostMapping("/add")
     public GestionCandidatureDto add(@RequestBody DocumentCandidature d,
                                      @RequestParam String civilite,
@@ -71,6 +86,9 @@ public class DocumentCandidatureController {
 
         // 1- nomPieceJointe de type NomDocument
            NomDocument nomDocument = nomDocumentService.getByNom(nom);
+        if (nomDocument == null) {
+            throw new Exception("pas de nom de document");
+        }
            d.setNomPieceJointe(nomDocument);
 
        // 2- candidature de type Candidature
@@ -90,8 +108,9 @@ public class DocumentCandidatureController {
         individuService.save(individu);
 
                 // 2 -A -2 etat civil de EtatCivilEnum dans Individu
-                    EtatCivilEnum etatCivilEnum = civiliteEnumService.getByDesignation(civilite);
-                individu.setEtatCivilEnum(etatCivilEnum);
+                    Civilite civilite1 = civiliteService.getByDesignation(civilite);
+             individu.setCivilite(civilite1);
+
             candidature.setIndividu(individu);
             candidatureService.save(candidature);
 

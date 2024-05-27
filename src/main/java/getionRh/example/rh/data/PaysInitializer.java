@@ -15,7 +15,7 @@ public class PaysInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        System.out.println("Initializing data...");
+        System.out.println("Initializing pays");
 
         if (this.paysService.counPays() == 0) {
             String[][] paysData = {
