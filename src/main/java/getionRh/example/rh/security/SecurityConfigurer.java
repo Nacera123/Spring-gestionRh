@@ -49,7 +49,7 @@ public class SecurityConfigurer {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((auth) -> auth
                   ///.requestMatchers(HttpMethod.GET,"/toto").hasAnyAuthority("CANDIDAT")
-                    .requestMatchers(HttpMethod.POST, "/api/login", "/api/register").permitAll() // pour le generateToken pour toute les personnes ont accées
+                    .requestMatchers(HttpMethod.POST, "/api/login", "/api/register","/testtest/**").permitAll() // pour le generateToken pour toute les personnes ont accées
                     .requestMatchers(HttpMethod.POST, "/etat-candidature", "/nom-document").hasAnyAuthority("ADMIN") // pour le generateToken pour toute les personnes ont accées
                     .requestMatchers(HttpMethod.PUT, "/etat-candidature", "/poste-de-travail", "/session-candidature", "/nom-document").hasAnyAuthority("ADMIN") // pour le generateToken pour toute les personnes ont accées
                     .anyRequest().permitAll()

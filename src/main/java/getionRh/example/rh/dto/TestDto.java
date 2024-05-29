@@ -33,6 +33,8 @@ public class TestDto {
 
 
     public TestDto(DocumentCandidature d ){
+
+
         User user = new User();
         this.pieceJointe = d.getPieceJointe();
         if(d.getNomPieceJointe()!= null){

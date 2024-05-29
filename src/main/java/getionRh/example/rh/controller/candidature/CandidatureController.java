@@ -1,13 +1,18 @@
 package getionRh.example.rh.controller.candidature;
 
 
+import getionRh.example.rh.dto.GestionCandidatureDto;
 import getionRh.example.rh.entity.candidature.Candidature;
+import getionRh.example.rh.entity.candidature.DocumentCandidature;
 import getionRh.example.rh.exception.WsException;
+import getionRh.example.rh.service.TestService;
 import getionRh.example.rh.service.implementation.CandidatServiceImpl;
 import getionRh.example.rh.service.implementation.candidature.CandidatureServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -92,6 +97,26 @@ public class CandidatureController {
                 return ResponseEntity.status(e.getStatusCode())
                         .body(e.getMessage());
             }
+    }
+
+
+    @Autowired
+    private TestService docCandidatureService;
+
+
+    @PostMapping("/upload")
+    public ResponseEntity<?> uploadPdf(@RequestParam("fileCV") MultipartFile fileCV,
+                                       @RequestParam("fileLM") MultipartFile fileLM,
+                                       @RequestParam(value = "doc", required = false, defaultValue = "--") String valeurSaisieParUtilisateur,
+                                       @RequestParam("postId") Integer postId) {
+        try {
+            DocumentCandidature docCandidature = docCandidatureService.save(fileCV, fileLM, valeurSaisieParUtilisateur, postId);
+            return ResponseEntity.ok(new GestionCandidatureDto(docCandidature));
+           // return ResponseEntity.ok(docCandidature);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
 }

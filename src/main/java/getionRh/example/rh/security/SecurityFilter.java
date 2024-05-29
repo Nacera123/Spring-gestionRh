@@ -44,8 +44,9 @@ public class SecurityFilter extends OncePerRequestFilter {
         String token = request.getHeader("Authorization");
 
         //2- a : verifier que le token n'est pas null et contient Bearer au debut
-        if (token == null || token.startsWith("Bearer")){
+        if (token == null || !token.startsWith("Bearer")){
             filterChain.doFilter(request,response);
+            return;
         }
         //2- b : si c'est ok lire a partir du septieme caractere "prendre espace"
         try {
