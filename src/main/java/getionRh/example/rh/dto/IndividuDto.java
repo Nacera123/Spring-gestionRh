@@ -1,14 +1,21 @@
 package getionRh.example.rh.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import getionRh.example.rh.entity.Civilite;
 import getionRh.example.rh.entity.Individu;
 import lombok.Data;
 
 import java.sql.Date;
 
-
+/*
+{"individu":{"nom":"x","prenom":"xx","email":"xxx","telephone":"xxxx","pays":{"id":1,"nom":"cv"},"civilite":{"id":19,"designation":"BANGLADESH","abreviation":"880"}}}
+ */
 @Data
 public class IndividuDto {
+
+    public IndividuDto(){
+
+    }
 
     @JsonProperty("id")
     private Integer id;
@@ -44,10 +51,12 @@ public class IndividuDto {
     @JsonProperty("pays")
     private PaysDto pays;
 
+
+
     @JsonProperty("situation_familiale")
     private String situationFamiliale;
-    @JsonProperty("etat_civil")
-    private String etatCivilEnum;
+    @JsonProperty("civilite")
+    private Civilite civilite;
 //    @JsonProperty("situation_familiale")
 //    private SituationFamilialeEnum situationFamiliale;
 //    @JsonProperty("etat_civil")
@@ -69,7 +78,7 @@ public class IndividuDto {
 
 
         ///etatCivilEnum = individu.getEtatCivilEnum()==null ? "":individu.getEtatCivilEnum().getAbreviation();
-        etatCivilEnum = individu.getCivilite().getDesignation();
+        //etatCivilEnum = individu.getCivilite().getDesignation();
         pays = new PaysDto(individu.getPays());
         situationFamiliale = individu.getSituationFamiliale()==null? "":individu.getSituationFamiliale().toString();
     }

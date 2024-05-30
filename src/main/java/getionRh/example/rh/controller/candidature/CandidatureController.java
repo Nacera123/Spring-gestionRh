@@ -1,7 +1,11 @@
 package getionRh.example.rh.controller.candidature;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import getionRh.example.rh.dto.GestionCandidatureDto;
+import getionRh.example.rh.dto.IndividuDto;
 import getionRh.example.rh.entity.candidature.Candidature;
 import getionRh.example.rh.entity.candidature.DocumentCandidature;
 import getionRh.example.rh.exception.WsException;
@@ -106,11 +110,18 @@ public class CandidatureController {
 
     @PostMapping("/upload")
     public ResponseEntity<?> uploadPdf(@RequestParam("fileCV") MultipartFile fileCV,
-                                       @RequestParam("fileLM") MultipartFile fileLM,
-                                       @RequestParam(value = "doc", required = false, defaultValue = "--") String valeurSaisieParUtilisateur,
-                                       @RequestParam("postId") Integer postId) {
+                                       @RequestParam(value = "fileLM", required = false ) MultipartFile fileLM,
+                                       @RequestParam(value = "nomFileCV", required = false, defaultValue = "--") String nomFileCV,
+                                       @RequestParam(value = "nomFileLM", required = false, defaultValue = "--") String nomFileLM,
+                                       @RequestParam(value = "datas", required = false) String datas,
+                                       @RequestParam("postId") Integer postId) throws JsonProcessingException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
+        IndividuDto individuDto = mapper.readValue(datas, IndividuDto.class);
+
         try {
-            DocumentCandidature docCandidature = docCandidatureService.save(fileCV, fileLM, valeurSaisieParUtilisateur, postId);
+            DocumentCandidature docCandidature = docCandidatureService.save(fileCV, fileLM, nomFileCV, nomFileLM,individuDto,  postId);
             return ResponseEntity.ok(new GestionCandidatureDto(docCandidature));
            // return ResponseEntity.ok(docCandidature);
         } catch (Exception e) {

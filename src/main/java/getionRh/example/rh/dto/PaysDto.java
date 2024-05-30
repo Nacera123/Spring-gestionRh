@@ -8,6 +8,10 @@ import lombok.Data;
 @Data
 public class PaysDto {
 
+    public PaysDto(){
+
+    }
+
     @JsonProperty("id")
     private Integer id;
 

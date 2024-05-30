@@ -1,12 +1,15 @@
 package getionRh.example.rh.service;
 
 
-import getionRh.example.rh.entity.candidature.Candidature;
-import getionRh.example.rh.entity.candidature.DocumentCandidature;
-import getionRh.example.rh.entity.candidature.PosteVacant;
-import getionRh.example.rh.repository.candidature.CandidatureRepository;
-import getionRh.example.rh.repository.candidature.DocumentCandidatureRepository;
-import getionRh.example.rh.repository.candidature.PosteVacantRepository;
+import getionRh.example.rh.dto.IndividuDto;
+import getionRh.example.rh.entity.Civilite;
+import getionRh.example.rh.entity.Individu;
+import getionRh.example.rh.entity.Pays;
+import getionRh.example.rh.entity.candidature.*;
+import getionRh.example.rh.repository.CiviliteRepository;
+import getionRh.example.rh.repository.IndividuRepository;
+import getionRh.example.rh.repository.PaysRepository;
+import getionRh.example.rh.repository.candidature.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -34,14 +37,56 @@ public class TestService {
     @Autowired
     private CandidatureRepository candidatureRepository;
 
-   public DocumentCandidature save(MultipartFile fileCv,MultipartFile fileLm, String valeurSaisieParUtilisateur, Integer postId) throws Exception {
+
+    @Autowired
+    private NomDocumentRepository nomDocumentRepository;
+
+    @Autowired
+    private PaysRepository paysRepository;
+    @Autowired
+    private CiviliteRepository civiliteRepository;
+
+    @Autowired
+    private IndividuRepository individuRepository;
+
+    @Autowired
+    private EtatCandidatureRepository etatCandidatureRepository;
+
+   public DocumentCandidature save(MultipartFile fileCv, MultipartFile fileLm, String nomFileCV, String nomFileLM, IndividuDto individuDto, Integer postId) throws Exception {
+
 
         // Récupérer le poste vacant
         PosteVacant post = posteVacantRepository.findById(postId) .orElseThrow(() -> new Exception("Poste vacant non trouvé"));
 
         Candidature candidature = new Candidature();
         candidature.setPosteVacant(post);
-        candidatureRepository.save(candidature);
+
+
+
+       /**Ajout civilite**/
+
+
+
+       /**Ajout Individu**/
+       Individu individu = new Individu();
+       individu.setNom(individuDto.getNom());
+       individu.setPrenom(individuDto.getPrenom());
+       individu.setTelephone(individuDto.getTelephone());
+       individu.setEmail(individuDto.getEmail());
+       //pays
+       Pays nomPays = paysRepository.findById(individuDto.getPays().getId()).orElse(null);
+       individu.setPays(nomPays);
+       //civilite
+       Civilite civilite = civiliteRepository.findById(individuDto.getCivilite().getId()).orElse(null);
+       individu.setCivilite(civilite);
+       individuRepository.save(individu);
+
+        candidature.setIndividu(individu);
+       EtatCandidature etatCandidature = etatCandidatureRepository.findByEtatIgnoreCase("Candidature envoyée");
+       candidature.setEtatCandidature(etatCandidature);
+
+       /*****************************************/
+       candidatureRepository.save(candidature);
 
 
         // Créer et enregistrer la nouvelle candidature
@@ -49,13 +94,18 @@ public class TestService {
         DocumentCandidature docCandidature = new DocumentCandidature();
         docCandidature.setNomFichier(this.uploadFile(fileCv));
         docCandidature.setCandidature(candidature);
+        docCandidature.setNomPieceJointe(nomDocumentRepository.findByNomIgnoreCase(nomFileCV));
+
         docCandidatureRepository.save(docCandidature);
 
 
         // LM
-        docCandidature = new DocumentCandidature();
-        docCandidature.setNomFichier(this.uploadFile(fileLm));
-        docCandidature.setCandidature(candidature);
+
+       docCandidature = new DocumentCandidature();
+       docCandidature.setNomFichier(this.uploadFile(fileLm));
+       docCandidature.setCandidature(candidature);
+       docCandidature.setNomPieceJointe(nomDocumentRepository.findByNomIgnoreCase(nomFileLM));
+
         docCandidatureRepository.save(docCandidature);
 
         // Assurez-vous que la candidature est initialisée avant d'essayer de définir son poste vacant

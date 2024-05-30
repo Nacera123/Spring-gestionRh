@@ -11,6 +11,10 @@ import lombok.Data;
 @Data
 public class Civilite {
 
+    public Civilite(){
+
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
