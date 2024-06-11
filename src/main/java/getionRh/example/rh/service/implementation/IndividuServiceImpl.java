@@ -53,4 +53,8 @@ public class IndividuServiceImpl implements IndividuService {
     public Optional<Individu> getByName(String name){
         return individuRepository.findIndividusByNom(name);
     }
+
+    public Individu getByEmail (String email){
+        return individuRepository.findByEmailIgnoreCase(email);
+    }
 }

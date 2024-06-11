@@ -1,5 +1,6 @@
 package getionRh.example.rh.service.implementation;
 
+import getionRh.example.rh.dto.IndividuDto;
 import getionRh.example.rh.entity.Candidat;
 import getionRh.example.rh.entity.Individu;
 import getionRh.example.rh.repository.CandidatRepository;
@@ -44,5 +45,10 @@ public class CandidatServiceImpl implements CandidatService {
     @Override
     public void delete(Candidat candidat) {
         candidatRepository.delete(candidat);
+    }
+
+
+    public Candidat save1(Candidat candidat){
+       return candidatRepository.save(candidat);
     }
 }

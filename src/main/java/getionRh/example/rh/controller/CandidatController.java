@@ -49,4 +49,13 @@ public class CandidatController {
         return new CandidatDto(candidatService.save(candidat));
     }
 
+    @PostMapping ("/add1")
+    public  Candidat addCandidat(@RequestParam int id){
+
+        Individu individu = individuService.getById(id).orElse(null);
+        Candidat candidat= new Candidat();
+        candidat.setIndividu(individu);
+        return candidatService.save1(candidat);
+    }
+
 }

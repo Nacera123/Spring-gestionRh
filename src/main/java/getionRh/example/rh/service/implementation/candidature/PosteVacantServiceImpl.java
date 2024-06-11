@@ -32,6 +32,9 @@ public class PosteVacantServiceImpl implements PosteVacantService {
         if (poste.getDescriptif() == null || poste.getDescriptif().isEmpty()){
             throw new Exception("Veuillez remplir un descriptif valide pour le poste a pourvoir");
         }
+        if (poste.getNom() == null || poste.getNom().isEmpty()){
+            throw new Exception("Veuillez remplir un nom valide pour le poste a pourvoir");
+        }
 
         return posteVacantRepository.save(poste);
     }

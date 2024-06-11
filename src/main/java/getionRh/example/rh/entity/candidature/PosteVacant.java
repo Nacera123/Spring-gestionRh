@@ -13,6 +13,9 @@ public class PosteVacant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String nom;
+
+    @Column(name = "descriptif", columnDefinition = "TEXT")
     private String descriptif;
 
     @ManyToOne

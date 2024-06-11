@@ -14,10 +14,13 @@ public class CandidatDto {
     @JsonProperty("individu")
     private IndividuDto individu;
 
+    private Integer individu1;
+
     public CandidatDto(Candidat candidat){
 
         id = candidat.getId();
         individu = new IndividuDto(candidat.getIndividu());
+        this.individu1 = candidat.getIndividu().getId();
     }
 
 }

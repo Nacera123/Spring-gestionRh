@@ -12,6 +12,7 @@ import getionRh.example.rh.service.implementation.RoleServiceImpl;
 import getionRh.example.rh.service.implementation.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -74,6 +75,26 @@ public class RegisterController {
         //4- Recuperer sa token 
         return response;
 
+    }
+
+    @PostMapping("/{id}/register")
+    public ResponseEntity<?> addUserById(@PathVariable Integer id, @RequestBody User user){
+
+        try{
+            Individu individu = individuService.getById(id).orElseThrow(() -> new IllegalArgumentException("Individu not found"));
+
+            user.setIndividu(individu);
+            user.setEmail(individu.getEmail());
+            user.setPassword(passwordEncoder.encode(user.getPassword())); // Assuming you have a PasswordEncoder bean
+            user.setRoles(roleService.findByName("CANDIDAT").orElseThrow(() -> new IllegalArgumentException("Role not found")));
+            user.setActive(true);
+
+            User savedUser = userService.addUserFromIndividu(user);
+            return ResponseEntity.ok(savedUser);
+        }catch (Exception e){
+            return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
     }
 
 }

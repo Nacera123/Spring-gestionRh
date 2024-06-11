@@ -1,5 +1,6 @@
 package getionRh.example.rh.service.implementation;
 
+import getionRh.example.rh.entity.Individu;
 import getionRh.example.rh.entity.User;
 import getionRh.example.rh.exception.WsException;
 import getionRh.example.rh.repository.UserRepository;
@@ -77,6 +78,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User loadUserByRole(String nom){
         return userRepository.findByRoles_NomIgnoreCase(nom);
+    }
+
+
+    public User addUserFromIndividu(User user){
+        return userRepository.save(user);
     }
 
 }

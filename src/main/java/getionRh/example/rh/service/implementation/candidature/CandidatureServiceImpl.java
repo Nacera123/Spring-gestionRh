@@ -2,6 +2,7 @@ package getionRh.example.rh.service.implementation.candidature;
 
 
 import getionRh.example.rh.entity.candidature.Candidature;
+import getionRh.example.rh.entity.candidature.SessionCandidature;
 import getionRh.example.rh.exception.WsException;
 import getionRh.example.rh.repository.candidature.CandidatureRepository;
 import getionRh.example.rh.service.candidature.CandidatureService;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,5 +64,11 @@ public class CandidatureServiceImpl implements CandidatureService {
         candidature1.setIndividu(candidature.getIndividu());
         candidature1.setPosteVacant(candidature.getPosteVacant());
         return this.save(candidature1);
+    }
+
+    public List<Candidature> candidatureBySession(SessionCandidature sessionCandidature){
+        List<Candidature> candidatures = sessionCandidature != null
+                ? candidatureRepository.findCandidatureBySession(sessionCandidature) : null;
+        return candidatures != null && !candidatures.isEmpty() ? candidatures : new ArrayList<>();
     }
 }

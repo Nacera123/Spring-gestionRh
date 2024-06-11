@@ -9,6 +9,9 @@ import getionRh.example.rh.enumerate.SituationFamilialeEnum;
 import getionRh.example.rh.service.implementation.CiviliteServiceImpl;
 import getionRh.example.rh.service.implementation.IndividuServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -81,5 +84,22 @@ public class IndividuController {
     @GetMapping("/nom/{name}")
     public IndividuDto getIndividuByNom(@PathVariable String nom){
         return new IndividuDto(individuService.getByName(nom).orElse(null));
+    }
+
+    @GetMapping("/nom/email/{email}")
+    public ResponseEntity<?> getByEmail(@PathVariable String email){
+        try {
+            return ResponseEntity.ok(individuService.getByEmail(email));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+
+        }
+    }
+
+
+    @GetMapping("get/individu/{id}")
+    public Individu getById(@PathVariable Integer id){
+        return individuService.getById(id).orElse(null);
     }
 }
