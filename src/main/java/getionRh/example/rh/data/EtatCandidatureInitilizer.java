@@ -18,11 +18,11 @@ public class EtatCandidatureInitilizer implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         if(etatCandidatureService.count() == 0){
             String[] etat = {
-                    "Candidature envoyée",
-                    "Candidature consultée par le recruteur",
-                    "Candidature  En cours de traitement",
-                    "Candidature  Refusée",
-                    "Candidature  Acceptée"
+                    "envoyée",
+                    "consultée par le recruteur",
+                    "En cours de traitement",
+                    "Refusée",
+                    "Acceptée"
             };
             for (String etats : etat){
                 EtatCandidature etat1 = new EtatCandidature();

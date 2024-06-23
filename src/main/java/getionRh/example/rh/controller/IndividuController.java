@@ -98,6 +98,18 @@ public class IndividuController {
     }
 
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> getByEmail1(@RequestParam String email){
+        try {
+            return ResponseEntity.ok(individuService.getByEmail(email));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+
+        }
+    }
+
+
     @GetMapping("get/individu/{id}")
     public Individu getById(@PathVariable Integer id){
         return individuService.getById(id).orElse(null);

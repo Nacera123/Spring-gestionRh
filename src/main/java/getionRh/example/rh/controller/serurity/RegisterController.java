@@ -1,6 +1,5 @@
 package getionRh.example.rh.controller.serurity;
 
-
 import getionRh.example.rh.entity.Individu;
 import getionRh.example.rh.entity.Role;
 import getionRh.example.rh.entity.User;
@@ -37,62 +36,59 @@ public class RegisterController {
     private IndividuServiceImpl individuService;
 
     @PostMapping("/register")
-    public Map<String, String> regiter(@RequestBody User user) throws Exception{
-        //1- Verifier si l'email existe
-//        try {
-//            userService.loadByUsername(user.getEmail());
-//            throw new WsException(HttpStatus.BAD_REQUEST, "Email existe deja");
-//        }catch (UsernameNotFoundException ignored){
-//        }
-
+    public Map<String, String> regiter(@RequestBody User user) throws Exception {
+        // 1- Verifier si l'email existe
+        // try {
+        // userService.loadByUsername(user.getEmail());
+        // throw new WsException(HttpStatus.BAD_REQUEST, "Email existe deja");
+        // }catch (UsernameNotFoundException ignored){
+        // }
 
         Individu individu = user.getIndividu(); // tout les donnée envoyer ...
         individu.setEmail(user.getEmail());
         individuService.save(user.getIndividu());
 
-        //2- Enregistrer le info du user
+        // 2- Enregistrer le info du user
         User newUser = new User();
         newUser.setEmail(user.getEmail());
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
         newUser.setActive(true);
         newUser.setIndividu(individu);
 
-
         Role role = roleService.findByName("CANDIDAT").orElse(null);
-
 
         newUser.setRoles(role);
 
-        //3- Enregistrer le user
+        // 3- Enregistrer le user
         newUser.setToken(TokenGenerater.generateToken(userService));
         userService.save(newUser);
 
-
-
-
-        Map<String , String> response = new HashMap<>();
+        Map<String, String> response = new HashMap<>();
         response.put("token", JwtTokenGenerater.generateToken(newUser.getToken()));
-        //4- Recuperer sa token 
+        // 4- Recuperer sa token
         return response;
 
     }
 
     @PostMapping("/{id}/register")
-    public ResponseEntity<?> addUserById(@PathVariable Integer id, @RequestBody User user){
+    public ResponseEntity<?> addUserById(@PathVariable Integer id, @RequestBody User user) {
 
-        try{
-            Individu individu = individuService.getById(id).orElseThrow(() -> new IllegalArgumentException("Individu not found"));
+        try {
+            Individu individu = individuService.getById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Individu not found"));
 
             user.setIndividu(individu);
             user.setEmail(individu.getEmail());
             user.setPassword(passwordEncoder.encode(user.getPassword())); // Assuming you have a PasswordEncoder bean
-            user.setRoles(roleService.findByName("CANDIDAT").orElseThrow(() -> new IllegalArgumentException("Role not found")));
+            user.setRoles(roleService.findByName("CANDIDAT")
+                    .orElseThrow(() -> new IllegalArgumentException("Role not found")));
             user.setActive(true);
+            user.setToken(TokenGenerater.generateToken(userService));
 
             User savedUser = userService.addUserFromIndividu(user);
             return ResponseEntity.ok(savedUser);
-        }catch (Exception e){
-            return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(e.getMessage());
         }
     }

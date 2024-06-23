@@ -15,4 +15,9 @@ public interface CandidatureRepository extends JpaRepository<Candidature, Intege
     @Query("select c from Candidature c where c.posteVacant.session = ?1")
     public List<Candidature> findCandidatureBySession(SessionCandidature sessionCandidature);
 
+
+    public List<Candidature> findCandidaturesByIndividu_Id(Integer id);
+
+    public List<Candidature> findByIndividu_Id(Integer id);
+
 }

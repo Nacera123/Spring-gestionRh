@@ -1,6 +1,5 @@
 package getionRh.example.rh.controller.serurity;
 
-
 import getionRh.example.rh.dto.AuthenticationDto;
 import getionRh.example.rh.entity.User;
 import getionRh.example.rh.exception.WsException;
@@ -22,7 +21,6 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 public class AuthenticationController {
 
-
     @Autowired
     private UserServiceImpl userService;
 
@@ -30,48 +28,38 @@ public class AuthenticationController {
     private BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public Map<String, String> login(@RequestBody AuthenticationDto authenticationDto){
- //   public ResponseEntity<?> login(@RequestBody AuthenticationDto authenticationDto){
-//    public String login(@RequestBody AuthenticationDto authenticationDto){
+    public Map<String, String> login(@RequestBody AuthenticationDto authenticationDto) {
 
         UserDetails userDetails = userService.loadByUsername(authenticationDto.getEmail());
 
-        if (!passwordEncoder.matches(authenticationDto.getPassword(), userDetails.getPassword())){
+        if (!passwordEncoder.matches(authenticationDto.getPassword(), userDetails.getPassword())) {
             throw new WsException(HttpStatus.UNAUTHORIZED, "Mot de passe incorrect");
 
         }
 
         User user = (User) userDetails;
-
-        Map<String , String> response = new HashMap<>();
+        Map<String, String> response = new HashMap<>();
         response.put("token", JwtTokenGenerater.generateToken(user.getToken()));
-        //return ResponseEntity.ok(JwtTokenGenerater.generateToken(user.getToken()));
 
-//        return JwtTokenGenerater.generateToken(user.getToken());
         return response;
     }
 
+    @PostMapping("/login1")
+    public Map<String, Object> login1(@RequestBody AuthenticationDto authenticationDto) {
 
+        UserDetails userDetails = userService.loadByUsername(authenticationDto.getEmail());
 
+        if (!passwordEncoder.matches(authenticationDto.getPassword(), userDetails.getPassword())) {
+            throw new WsException(HttpStatus.UNAUTHORIZED, "Mot de passe incorrect");
+        }
 
+        User user = (User) userDetails;
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", JwtTokenGenerater.generateToken(user.getToken()));
+        response.put("id", user.getId()); // Ajout de l'ID de l'utilisateur à la réponse
+        response.put("id_individu", user.getIndividu().getId()); // Ajout de l'ID de l'utilisateur à la réponse
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return response;
+    }
 
 }

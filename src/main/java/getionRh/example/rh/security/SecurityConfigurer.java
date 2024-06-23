@@ -1,6 +1,5 @@
 package getionRh.example.rh.security;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,43 +22,46 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfigurer {
 
-
-
     /**
      * Methode qui crypte le password
+     * 
      * @return
      */
     @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     /**
      * Methode pour filter
+     * 
      * @return
      */
     @Bean
-    public SecurityFilter securityFilter(){
+    public SecurityFilter securityFilter() {
         return new SecurityFilter();
     }
 
     @Bean
-    public SecurityFilterChain configurer(HttpSecurity http)throws Exception{
+    public SecurityFilterChain configurer(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((auth) -> auth
-                  ///.requestMatchers(HttpMethod.GET,"/toto").hasAnyAuthority("CANDIDAT")
-                    .requestMatchers(HttpMethod.POST, "/api/login", "/api/register","/testtest/**").permitAll() // pour le generateToken pour toute les personnes ont accées
-                    .requestMatchers(HttpMethod.POST, "/etat-candidature", "/nom-document").hasAnyAuthority("ADMIN") // pour le generateToken pour toute les personnes ont accées
-                    .requestMatchers(HttpMethod.PUT, "/etat-candidature", "/poste-de-travail", "/session-candidature", "/nom-document").hasAnyAuthority("ADMIN") // pour le generateToken pour toute les personnes ont accées
-                    .anyRequest().permitAll()
-                )
+                        .requestMatchers(HttpMethod.GET, "/etat-candidature", "/candidature")
+                        .hasAnyAuthority("CANDIDAT")
+                        .requestMatchers(HttpMethod.POST, "/api/login", "/api/register",
+                                "/testtest/**")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/etat-candidature",
+                                "/nom-document", "/candidature")
+                        .hasAnyAuthority("ADMIN") // pour
+                        .requestMatchers(HttpMethod.PUT, "/etat-candidature", "/poste-de-travail",
+                                "/session-candidature", "/nom-document")
+                        .hasAnyAuthority("ADMIN")
+                        .anyRequest().permitAll())
 
                 .addFilterAfter(securityFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
-
-
 
 }

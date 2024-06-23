@@ -1,6 +1,6 @@
 package getionRh.example.rh.repository;
 
-
+import getionRh.example.rh.entity.Individu;
 import getionRh.example.rh.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -19,4 +19,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     boolean existsByEmailLikeIgnoreCase(String email);
 
     User findByRoles_NomIgnoreCase(String nom);
+
+    User findByIndividu_Id(Integer id);
+
 }

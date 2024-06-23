@@ -1,6 +1,5 @@
 package getionRh.example.rh.service.implementation.candidature;
 
-
 import getionRh.example.rh.entity.candidature.Candidature;
 import getionRh.example.rh.entity.candidature.SessionCandidature;
 import getionRh.example.rh.exception.WsException;
@@ -20,45 +19,43 @@ public class CandidatureServiceImpl implements CandidatureService {
     @Autowired
     private CandidatureRepository candidatureRepository;
 
-
     @Override
-    public Candidature save(Candidature candidature){
+    public Candidature save(Candidature candidature) {
         return candidatureRepository.save(candidature);
     }
 
-
     @Override
-    public List<Candidature> getAll()throws WsException{
+    public List<Candidature> getAll() throws WsException {
 
         List<Candidature> candidatures = candidatureRepository.findAll();
-        if (candidatures.isEmpty()){
+        if (candidatures.isEmpty()) {
             throw new WsException(HttpStatus.NOT_FOUND, "La liste de candidature est vide");
-        }else {
+        } else {
             return candidatures;
         }
 
     }
 
     @Override
-    public Candidature getById(Integer id)throws WsException {
+    public Candidature getById(Integer id) throws WsException {
         Optional<Candidature> optional = candidatureRepository.findById(id);
         Candidature candidature;
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
             candidature = optional.get();
-        }else {
+        } else {
             throw new WsException(HttpStatus.NOT_FOUND, "⚠ La candidature " + id + " n'existe pas!");
         }
-         return candidature;
+        return candidature;
     }
 
     @Override
-    public void delete(Integer id){
+    public void delete(Integer id) {
 
         candidatureRepository.deleteById(id);
     }
 
     @Override
-    public Candidature update(Integer id, Candidature candidature){
+    public Candidature update(Integer id, Candidature candidature) {
         Candidature candidature1 = this.getById(id);
         candidature1.setEtatCandidature(candidature.getEtatCandidature());
         candidature1.setIndividu(candidature.getIndividu());
@@ -66,9 +63,19 @@ public class CandidatureServiceImpl implements CandidatureService {
         return this.save(candidature1);
     }
 
-    public List<Candidature> candidatureBySession(SessionCandidature sessionCandidature){
+    public List<Candidature> candidatureBySession(SessionCandidature sessionCandidature) {
         List<Candidature> candidatures = sessionCandidature != null
-                ? candidatureRepository.findCandidatureBySession(sessionCandidature) : null;
+                ? candidatureRepository.findCandidatureBySession(sessionCandidature)
+                : null;
         return candidatures != null && !candidatures.isEmpty() ? candidatures : new ArrayList<>();
+    }
+
+    public List<Candidature> candidatureParCandidats(Integer id) {
+        List<Candidature> candidature = candidatureRepository.findCandidaturesByIndividu_Id(id);
+        return candidature;
+    }
+    public List<Candidature> test(Integer id) {
+        List<Candidature> candidature = candidatureRepository.findByIndividu_Id(id);
+        return candidature;
     }
 }
