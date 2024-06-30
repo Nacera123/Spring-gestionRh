@@ -120,7 +120,7 @@ public class CandidatureController {
     }
 
     @GetMapping("/b/{id}")
-    public ResponseEntity<?> toto(@RequestParam int id) {
+    public ResponseEntity<?> toto(@PathVariable(value = "id") int id) {
         return ResponseEntity.ok(candidatureService.test(id));
     }
 

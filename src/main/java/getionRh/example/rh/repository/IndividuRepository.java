@@ -14,4 +14,6 @@ public interface IndividuRepository extends JpaRepository<Individu,Integer> {
     public Optional<Individu> getIndividusByNomStartingWith(String n);
 
     Individu findByEmailIgnoreCase(String email);
+
+    Individu findByEmail(String email);
 }
