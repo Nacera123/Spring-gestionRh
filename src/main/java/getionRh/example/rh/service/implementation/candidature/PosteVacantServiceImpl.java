@@ -66,16 +66,16 @@ public class PosteVacantServiceImpl implements PosteVacantService {
 
 
     @Override
-    public void delete(PosteVacant poste){
-        posteVacantRepository.delete(poste);
+    public void  delete(Integer id){
+        posteVacantRepository.deleteById(id);
     }
-
 
     @Override
     public PosteVacant update(Integer id, PosteVacant poste)throws Exception{
         PosteVacant poste1 = this.getById(id);
-        poste1.setPoste(poste.getPoste());
+        poste1.setNom(poste.getNom());
         poste1.setDescriptif(poste.getDescriptif());
+        poste1.setPoste(poste.getPoste());
         poste1.setSession(poste.getSession());
         poste1.setTypeContrat(poste.getTypeContrat());
         return this.save(poste1);

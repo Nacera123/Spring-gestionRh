@@ -37,13 +37,21 @@ public class RegisterController {
 
     @PostMapping("/register")
     public Map<String, String> regiter(@RequestBody User user) throws Exception {
-        // 1- Verifier si l'email existe
-        // try {
-        // userService.loadByUsername(user.getEmail());
-        // throw new WsException(HttpStatus.BAD_REQUEST, "Email existe deja");
-        // }catch (UsernameNotFoundException ignored){
-        // }
 
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            throw new WsException(HttpStatus.BAD_REQUEST, "Veuillez fournir un mot de passe.");
+        }
+        if (user.getPassword().length() < 6) {
+            throw new WsException(HttpStatus.BAD_REQUEST, "Le mot de passe doit contenir au moins 8 caracteres.");
+        }
+        if (!user.getPassword().matches(".*[A-Z].*")) {
+            throw new WsException(HttpStatus.BAD_REQUEST,
+                    "Le mot de passe doit contenir au moins une  majuscule.");
+        }
+        if (!user.getPassword().matches(".*[0-9].*")) {
+            throw new WsException(HttpStatus.BAD_REQUEST,
+                    "Le mot de passe doit contenir au moins un chiffre.");
+        }
         Individu individu = user.getIndividu(); // tout les donnée envoyer ...
         individu.setEmail(user.getEmail());
         individuService.save(user.getIndividu());
@@ -61,6 +69,7 @@ public class RegisterController {
 
         // 3- Enregistrer le user
         newUser.setToken(TokenGenerater.generateToken(userService));
+
         userService.save(newUser);
 
         Map<String, String> response = new HashMap<>();

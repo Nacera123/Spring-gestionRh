@@ -12,7 +12,7 @@ public interface PosteVacantService {
 
     PosteVacant getById(Integer id)throws WsException;
 
-    void delete(PosteVacant poste);
+    void  delete(Integer id);
 
     PosteVacant update(Integer id, PosteVacant poste) throws Exception;
 }

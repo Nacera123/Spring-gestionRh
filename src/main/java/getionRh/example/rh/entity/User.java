@@ -42,18 +42,6 @@ public class User implements UserDetails {
     @OneToOne
     private Individu individu;
 
-
-//    public boolean isRole(String roleName){
-//        if (this.roles == null){
-//            return false;
-//        }
-//        for (Role role: List.of(roles)){
-//            if (role.getNom().equals(roleName)){
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(this.roles);

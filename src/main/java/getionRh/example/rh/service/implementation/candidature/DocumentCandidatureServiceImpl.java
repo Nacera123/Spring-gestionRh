@@ -9,6 +9,7 @@ import getionRh.example.rh.entity.candidature.Candidature;
 import getionRh.example.rh.entity.candidature.DocumentCandidature;
 import getionRh.example.rh.entity.candidature.EtatCandidature;
 import getionRh.example.rh.entity.candidature.PosteVacant;
+import getionRh.example.rh.exception.ResponeExtendException;
 import getionRh.example.rh.repository.*;
 import getionRh.example.rh.repository.candidature.*;
 import getionRh.example.rh.service.candidature.DocumentCandidatureService;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import java.nio.file.Path;
@@ -69,6 +71,18 @@ public class DocumentCandidatureServiceImpl implements DocumentCandidatureServic
 
     @Autowired
     private RoleRepository roleRepository;
+
+    public DocumentCandidature getById(int id)throws ResponeExtendException {
+        return docCandidatureRepository.findById(id).orElse(null);
+    }
+
+    public List<DocumentCandidature> getByCandidature(int id){
+        return docCandidatureRepository.findAllByCandidatureId(id);
+    }
+
+    public List<Object[]> getAllByCandidature() {
+        return docCandidatureRepository.findDocumentsGroupedByCandidatureId();
+    }
 
     public List<DocumentCandidature> getAll() throws Exception {
         List<DocumentCandidature> documentCandidatures = docCandidatureRepository.findAll();

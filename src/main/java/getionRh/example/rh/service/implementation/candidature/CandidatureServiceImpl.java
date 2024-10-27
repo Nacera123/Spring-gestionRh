@@ -78,4 +78,21 @@ public class CandidatureServiceImpl implements CandidatureService {
         List<Candidature> candidature = candidatureRepository.findByIndividu_Id(id);
         return candidature;
     }
+
+    public List<Candidature> getByposteVacant(String nom){
+
+        List<Candidature> candidature = candidatureRepository.findCandidaturesByPosteVacant_Nom(nom);
+        return candidature != null && !candidature.isEmpty() ? candidature : new ArrayList<>();
+    }
+
+    public static String candidatueVsPosteVacant(int nbPosteVcant, int candidatureAccepte){
+        if (nbPosteVcant < candidatureAccepte){
+            return  "attention !  il y'a plus de candidats acceptés qu'il y'a de postes vacants";
+        }else if (nbPosteVcant == candidatureAccepte){
+            return  "Bon travail ! vous avez recruté les bons candidats";
+        }else if (nbPosteVcant > candidatureAccepte){
+            return  "Cette année il y'a eu trop de chomage! ";
+        }
+        return "les parametres ne sont pas clairs";
+    }
 }

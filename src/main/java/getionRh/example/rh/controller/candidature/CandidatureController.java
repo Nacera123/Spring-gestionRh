@@ -119,9 +119,14 @@ public class CandidatureController {
 
     }
 
-    @GetMapping("/b/{id}")
+    @GetMapping("/byid/{id}")
     public ResponseEntity<?> toto(@PathVariable(value = "id") int id) {
         return ResponseEntity.ok(candidatureService.test(id));
+    }
+
+    @GetMapping("/poste-vacant/{nom}")
+    public ResponseEntity<?> getCandidatureByPosteVacant(@PathVariable(value = "nom") String nom){
+        return ResponseEntity.ok(candidatureService.getByposteVacant(nom));
     }
 
 }

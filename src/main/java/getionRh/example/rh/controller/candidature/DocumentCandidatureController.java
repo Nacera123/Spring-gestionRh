@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import getionRh.example.rh.dto.IndividuDto;
+import getionRh.example.rh.exception.ResponeExtendException;
 import getionRh.example.rh.service.implementation.CandidatServiceImpl;
 import getionRh.example.rh.service.implementation.candidature.*;
 import jakarta.annotation.Resource;
@@ -106,4 +107,36 @@ public class DocumentCandidatureController {
         return ResponseEntity.ok(absolutePath);
     }
 
+    @GetMapping("document/{id}")
+    public ResponseEntity<?> getDocById(@PathVariable(value = "id") int id){
+        try {
+            return ResponseEntity.ok(documentCandidatureService.getById(id));
+        }catch (ResponeExtendException e){
+           return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("document inexistant" );
+        }
+
+    }
+    @GetMapping("by-candidature/{id}")
+    public ResponseEntity<?> getDocByCandidatureId(@PathVariable(value = "id") int id){
+        try {
+            return ResponseEntity.ok(documentCandidatureService.getByCandidature(id));
+        }catch (ResponeExtendException e){
+           return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("document inexistant" );
+        }
+
+    }
+
+
+    @GetMapping("/by-candidature")
+    public ResponseEntity<?> getDocByCandidatureId(){
+        try {
+            return ResponseEntity.ok(documentCandidatureService.getAllByCandidature());
+        }catch (ResponeExtendException e){
+           return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("document inexistant" );
+        }
+
+    }
 }

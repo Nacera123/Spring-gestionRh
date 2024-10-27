@@ -20,4 +20,6 @@ public interface CandidatureRepository extends JpaRepository<Candidature, Intege
 
     public List<Candidature> findByIndividu_Id(Integer id);
 
+    public List<Candidature> findCandidaturesByPosteVacant_Nom(String nom);
+
 }

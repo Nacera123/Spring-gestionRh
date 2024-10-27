@@ -1,6 +1,7 @@
 package getionRh.example.rh.controller.candidature;
 
 
+import getionRh.example.rh.entity.candidature.PosteDeTravail;
 import getionRh.example.rh.entity.candidature.PosteVacant;
 import getionRh.example.rh.exception.WsException;
 import getionRh.example.rh.service.implementation.candidature.PosteVacantServiceImpl;
@@ -56,4 +57,31 @@ public class PosteVancantController {
                     .body(e.getMessage());
         }
     }
+
+
+
+    @PostMapping("/{id}/update")
+    public ResponseEntity<?> updatePoste(@PathVariable(value = "id") int id, @RequestBody PosteVacant posteDeTravail)throws Exception{
+
+        try {
+            posteVacantService.update(id, posteDeTravail);
+            PosteVacant posteDeTravailMiseAJour = posteVacantService.getById(id);
+            return  ResponseEntity.ok(posteDeTravailMiseAJour);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body( e.getMessage());
+        }
+
+
+    }
+
+
+    @DeleteMapping("/delete/{id}")
+    public void deletePosteDeTravailService(@PathVariable int id){
+
+
+        posteVacantService.delete(id);
+
+    }
+
 }

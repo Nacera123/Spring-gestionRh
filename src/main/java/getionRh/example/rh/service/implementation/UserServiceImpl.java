@@ -19,18 +19,50 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+
     @Override
     public User save(User user) throws WsException {
-        String regexp = "^|([a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)";
-        if (user.getEmail().isEmpty() || user.getPassword().isEmpty()) {
-            throw new WsException(HttpStatus.BAD_REQUEST, "Veuillez remplir tout les champs");
+        // Vérification des champs email et mot de passe vides
+        if (user.getEmail() == null || user.getEmail().isEmpty() ||
+                user.getPassword() == null || user.getPassword().isEmpty()) {
+            throw new WsException(HttpStatus.BAD_REQUEST, "Veuillez remplir tous les champs.");
         }
+
+        // Vérification si l'email existe déjà
         if (userRepository.existsByEmailLikeIgnoreCase(user.getEmail())) {
-            throw new WsException(HttpStatus.BAD_REQUEST, "l'email existe deja");
+            throw new WsException(HttpStatus.BAD_REQUEST, "L'email existe déjà.");
         }
+
+        // Validation de l'email
         if (!user.getEmail().matches(".+@.+\\.[a-z]+")) {
-            throw new WsException(HttpStatus.BAD_REQUEST, "entrez un email valid" + user.getEmail());
+            throw new WsException(HttpStatus.BAD_REQUEST, "Entrez un email valide : " + user.getEmail());
         }
+
+        // Validation du mot de passe
+        String password = user.getPassword();
+
+        if (password == null || password.isEmpty()) {
+            throw new WsException(HttpStatus.BAD_REQUEST, "Veuillez saisir un mot de passe.");
+        }
+        if (password.length() < 6) {
+            throw new WsException(HttpStatus.BAD_REQUEST, "Le mot de passe doit contenir au moins 6 caractères.");
+        }
+        if (!password.matches(".*[A-Z].*")) {
+            throw new WsException(HttpStatus.BAD_REQUEST, "Le mot de passe doit contenir au moins une majuscule.");
+        }
+        if (!password.matches(".*\\d.*")) {
+            throw new WsException(HttpStatus.BAD_REQUEST, "Le mot de passe doit contenir au moins un chiffre.");
+        }
+
+        return userRepository.save(user);
+    }
+
+    public User test(User user) throws WsException {
+        // Vérification des champs email et mot de passe vides
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            throw new WsException(HttpStatus.BAD_REQUEST, "Veuillez remplir tous les champs.");
+        }
+
 
         return userRepository.save(user);
     }
